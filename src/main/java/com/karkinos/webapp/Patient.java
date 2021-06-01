@@ -6,7 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity @Table(name = "image_table")
+@Entity 
+@Table(name = "patient")
 public class Patient {
 
   private long id;
