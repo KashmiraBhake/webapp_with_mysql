@@ -14,10 +14,10 @@ public class Doctor {
   private String firstName;
   private String lastName;
   private String specialization;
-  private int phoneNumber;
+  private long phoneNumber;
   private String address;
   private String city;
-  private int pincode;
+  private Integer pincode;
 
   protected Doctor() {
 
@@ -28,7 +28,7 @@ public class Doctor {
         return id;
     }
 
-  public Doctor(String firstName, String lastName, String specialization, int phoneNumber, String address, String city, int pincode) {
+  public Doctor(String firstName, String lastName, String specialization, long phoneNumber, String address, String city, int pincode) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.specialization = specialization;
@@ -66,11 +66,11 @@ public class Doctor {
     this.specialization = specialization;
   }
 
-  public int getPhoneNumber() {
+  public long getPhoneNumber() {
     return phoneNumber;
   }
 
-  public void setPhoneNumber(int phoneNumber) {
+  public void setPhoneNumber(long phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
@@ -90,11 +90,11 @@ public class Doctor {
     this.city = city;
   }
 
-  public int getPincode() {
+  public Integer getPincode() {
     return pincode;
   }
 
-  public void setPincode(int pincode) {
+  public void setPincode(Integer pincode) {
     this.pincode = pincode;
   }
 

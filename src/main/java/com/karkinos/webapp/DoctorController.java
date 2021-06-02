@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +28,11 @@ public class DoctorController {
     }
 
     @RequestMapping(path="/create_new_doctor",method=RequestMethod.POST)
-    public ModelAndView create_new_doctor(@ModelAttribute("doctor") Doctor doctor,
+    public ModelAndView create_new_doctor(@ModelAttribute Doctor doctor,BindingResult result,
         @RequestParam String firstName,
         @RequestParam String lastName,
         @RequestParam String specialization,
-        @RequestParam Integer phoneNumber,
+        @RequestParam long phoneNumber,
         @RequestParam String address,
         @RequestParam String city,
         @RequestParam Integer pincode) {
