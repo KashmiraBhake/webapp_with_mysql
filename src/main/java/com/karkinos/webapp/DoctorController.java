@@ -61,9 +61,8 @@ public class DoctorController {
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_doctor_result");
-        modelAndView.addObject("doctors", doctorRepository.findBySpecialization(specialization));
-        modelAndView.addObject("doctors", doctorRepository.findByCity(city));
-        //modelAndView.addObject("doctors", doctorRepository.findByFirstName(firstName));
+        modelAndView.addObject("doctors", doctorRepository.findBySpecializationAndCity(specialization, city));
+       
 
         return modelAndView;
     }
