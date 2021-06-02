@@ -57,14 +57,13 @@ public class DoctorController {
         return modelAndView;
     }
     @RequestMapping(path="/search_doctor",method=RequestMethod.GET)
-    public ModelAndView search_doctor(@RequestParam String firstName)
-    // specialization, @RequestParam String city) 
+    public ModelAndView search_doctor(@RequestParam String specialization, @RequestParam String city) 
     {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_doctor_result");
-        // modelAndView.addObject("doctors", doctorRepository.getBySpecialization(specialization));
-        // modelAndView.addObject("doctors", doctorRepository.getByCity(city));
-        modelAndView.addObject("doctors", doctorRepository.findByFirstName(firstName));
+        modelAndView.addObject("doctors", doctorRepository.findBySpecialization(specialization));
+        modelAndView.addObject("doctors", doctorRepository.findByCity(city));
+        //modelAndView.addObject("doctors", doctorRepository.findByFirstName(firstName));
 
         return modelAndView;
     }
