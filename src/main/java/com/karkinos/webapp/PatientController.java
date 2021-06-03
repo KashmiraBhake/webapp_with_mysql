@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,23 +125,52 @@ public class PatientController {
     return "redirect:/";       
     }
 
-    @RequestMapping("/upload_pic/{id}")
+    @RequestMapping(path="/upload_pic/{id}",method = RequestMethod.GET)
     public ModelAndView showupload_pic_page(@PathVariable(name = "id") long id) {
+   
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("upload_pic");
     modelAndView.addObject("patient", patientRepository.findById(id));
+    System.out.println(id);
     modelAndView.addObject("id", id);
     System.out.println("upload pic");
     return modelAndView;
     }
 
     @RequestMapping(path="/photos/add/{id}",method=RequestMethod.POST)
-    public String savePatientpic(Patient patient,@RequestParam("image") MultipartFile multipartFile, RedirectAttributes ra) throws IOException {
+    public String savePatientpic(Patient patient,
+    @RequestParam("image") MultipartFile multipartFile, 
+    RedirectAttributes ra,
+    @PathVariable(name = "id") long id,
+    Model model) 
+    
+    throws IOException {
+    
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    patient.setPhotos(fileName);
-    Patient savedPatient = patientRepository.save(patient);
+    Optional<Patient> patientData = patientRepository.findById(id);
+    Patient _patient = patientData.get();
+    System.out.println(_patient.getFirstName());
+        _patient.setPhotos(fileName);
+
+        System.out.println(_patient.getFirstName()); 
+
+        _patient.setFirstName(_patient.getFirstName());
+        _patient.setLastName(_patient.getLastName());
+        _patient.setAge(_patient.getAge());
+        _patient.setGender(_patient.getGender());
+        _patient.setCity(_patient.getCity());
+        _patient.setPincode(_patient.getPincode());
+
+        System.out.println(patient.getFirstName());
+
+        Patient savedPatient = patientRepository.save(_patient);
  
         String uploadDir = "./patient-photos/" + savedPatient.getId();
+        // System.out.println(patient1.get().getFirstName());
+        System.out.println(savedPatient.getId());
+        System.out.println(savedPatient.getLastName());
+        System.out.println("add pic and ty");
+      
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);}
@@ -153,7 +183,14 @@ public class PatientController {
             throw new IOException("Could not save image file: " + fileName, ioe);
         }
         System.out.println("add pic and ty");
-        ra.addFlashAttribute("message", "The brand has been saved successfully.");
-        return "redirect:/view";
+    
+        model.addAttribute("firstName",_patient.getFirstName());
+        model.addAttribute("lastName",_patient.getLastName());
+        model.addAttribute("age", _patient.getAge());
+        model.addAttribute("gender", _patient.getGender());
+        model.addAttribute("city", _patient.getCity());
+        model.addAttribute("pincode", _patient.getPincode());
+        //ra.addFlashAttribute("message", "The brand has been saved successfully.");
+        return "view";
     }
 }

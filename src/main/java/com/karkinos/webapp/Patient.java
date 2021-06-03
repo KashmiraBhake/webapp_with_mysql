@@ -103,8 +103,8 @@ public class Patient {
   }
   @Transient
     public String getPhotosImagePath() {
-        if (photos == null || id == 0) return null;
-        //if (photos == null) return null;
+        //if (photos == null || id == 0) return null;
+        if (photos == null) return null;
         return "/patient-photos/" + id + "/" + photos;
     }
 }
