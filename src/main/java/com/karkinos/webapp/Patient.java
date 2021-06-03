@@ -1,10 +1,13 @@
 package com.karkinos.webapp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 @Entity 
 @Table(name = "patient")
@@ -13,11 +16,12 @@ public class Patient {
   private long id;
   private String firstName;
   private String lastName;
-  private int age;
+  private String age;
   private String gender;
   private String city;
-  private int pincode;
-
+  private String pincode;
+  @Column(nullable = true, length = 64)
+  private String photos;
 
   protected Patient() {
 
@@ -28,14 +32,14 @@ public class Patient {
         return id;
     }
 
-  public Patient(String firstName, String lastName, int age, String gender, String city, int pincode) {
+  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
     this.gender = gender;
     this.city = city;
     this.pincode = pincode;
-   // this.image = image;
+    this.photos=photos;
   }
 
   
@@ -59,11 +63,11 @@ public class Patient {
     this.lastName = lastName;
   }
 
-  public int getAge() {
+  public String getAge() {
     return age;
   }
 
-  public void setAge(int age) {
+  public void setAge(String age) {
     this.age = age;
   }
 
@@ -83,12 +87,24 @@ public class Patient {
     this.city = city;
   }
 
-  public int getPincode() {
+  public String getPincode() {
     return pincode;
   }
 
-  public void setPincode(int pincode) {
+  public void setPincode(String pincode) {
     this.pincode = pincode;
   }
 
+  public String getPhotos() {
+    return photos;
+  }
+  public void setPhotos(String photos) {
+    this.photos = photos;
+  }
+  @Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == 0) return null;
+        //if (photos == null) return null;
+        return "/patient-photos/" + id + "/" + photos;
+    }
 }

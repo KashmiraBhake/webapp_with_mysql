@@ -1,15 +1,25 @@
 package com.karkinos.webapp;
  
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
  
 @Controller
 public class PatientController {
@@ -20,7 +30,7 @@ public class PatientController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-
+        System.out.println("home");
         return modelAndView;
     }
 
@@ -28,7 +38,7 @@ public class PatientController {
     public ModelAndView new_patient() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("new_patient");
-
+        System.out.println("new patient");
         return modelAndView;
     }
 
@@ -40,7 +50,7 @@ public class PatientController {
         @RequestParam String gender,
         @RequestParam String city,
         @RequestParam Integer pincode) {
-        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode()));
+        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("submitmessage");
         modelAndView.addObject("firstName", firstName);
@@ -49,7 +59,7 @@ public class PatientController {
         modelAndView.addObject("gender", gender);
         modelAndView.addObject("city", city);
         modelAndView.addObject("pincode", pincode);
-
+        System.out.println("create new patient");
         return modelAndView;
     }
 
@@ -57,7 +67,7 @@ public class PatientController {
     public ModelAndView search_patient_form() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_patient_form");
-
+        System.out.println("search patient form");
         return modelAndView;
     }
 
@@ -67,7 +77,7 @@ public class PatientController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_result");
         modelAndView.addObject("patients", patientRepository.findByFirstName(firstName));
-
+        System.out.println("search patient");
         return modelAndView;
     }
 
@@ -78,6 +88,7 @@ public class PatientController {
     // Patient patient = patientRepository.get(id);
     modelAndView.addObject("patient", patientRepository.findById(id));
     modelAndView.addObject("id", id);
+    System.out.println("edit");
     return modelAndView;
     }
 
@@ -101,7 +112,7 @@ public class PatientController {
         modelAndView.addObject("gender", _patient.getGender());
         modelAndView.addObject("city", _patient.getCity());
         modelAndView.addObject("pincode", _patient.getPincode());
-    
+        System.out.println("update");
         return modelAndView;
         
     }
@@ -109,14 +120,40 @@ public class PatientController {
     @RequestMapping("/delete/{id}")
     public String deletePatient(@PathVariable(name = "id") long id) {
     patientRepository.deleteById(id);
+    System.out.println("delete");
     return "redirect:/";       
     }
 
-    @RequestMapping(path="/upload_photo", method = RequestMethod.GET)
-    public ModelAndView upload_photo() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("uploadPhoto");
+    @RequestMapping("/upload_pic/{id}")
+    public ModelAndView showupload_pic_page(@PathVariable(name = "id") long id) {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("upload_pic");
+    modelAndView.addObject("patient", patientRepository.findById(id));
+    modelAndView.addObject("id", id);
+    System.out.println("upload pic");
+    return modelAndView;
+    }
 
-        return modelAndView;
+    @RequestMapping(path="/photos/add/{id}",method=RequestMethod.POST)
+    public String savePatientpic(Patient patient,@RequestParam("image") MultipartFile multipartFile, RedirectAttributes ra) throws IOException {
+    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    patient.setPhotos(fileName);
+    Patient savedPatient = patientRepository.save(patient);
+ 
+        String uploadDir = "./patient-photos/" + savedPatient.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);}
+
+        try(InputStream inputStream = multipartFile.getInputStream()){
+        Path filePath = uploadPath.resolve(fileName);
+        System.out.println(filePath.toFile().getAbsolutePath() );
+        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ioe) {        
+            throw new IOException("Could not save image file: " + fileName, ioe);
+        }
+        System.out.println("add pic and ty");
+        ra.addFlashAttribute("message", "The brand has been saved successfully.");
+        return "redirect:/view";
     }
 }
