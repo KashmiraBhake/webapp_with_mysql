@@ -184,13 +184,31 @@ public class PatientController {
         }
         System.out.println("add pic and ty");
     
-        model.addAttribute("firstName",_patient.getFirstName());
-        model.addAttribute("lastName",_patient.getLastName());
-        model.addAttribute("age", _patient.getAge());
-        model.addAttribute("gender", _patient.getGender());
-        model.addAttribute("city", _patient.getCity());
-        model.addAttribute("pincode", _patient.getPincode());
-        //ra.addFlashAttribute("message", "The brand has been saved successfully.");
-        return "view";
+        return "ty_message";
+    }
+    
+    @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
+    public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable long id)
+        {
+        Optional<Patient> patientData = patientRepository.findById(id);
+        Patient _patient = patientData.get();
+        // _patient.setFirstName(patient.getFirstName());
+        // _patient.setLastName(patient.getLastName());
+        // _patient.setAge(patient.getAge());
+        // _patient.setGender(patient.getGender());
+        // _patient.setCity(patient.getCity());
+        // _patient.setPincode(patient.getPincode());
+        // patientRepository.save(_patient);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("view");
+        modelAndView.addObject("photos", _patient.getPhotosImagePath());
+        modelAndView.addObject("firstName", _patient.getFirstName());
+        modelAndView.addObject("lastName", _patient.getLastName());
+        modelAndView.addObject("age", _patient.getAge());
+        modelAndView.addObject("gender", _patient.getGender());
+        modelAndView.addObject("city", _patient.getCity());
+        modelAndView.addObject("pincode", _patient.getPincode());
+        return modelAndView;
+        
     }
 }

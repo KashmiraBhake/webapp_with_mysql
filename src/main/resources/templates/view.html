@@ -4,7 +4,7 @@
   </head>
     <body>
       <h1 th:text= "${firstName} +' ' + ${lastName} + ' Profile'" ></h1>
-      <img th:src="/@{${patient.PhotosImagePath}}" />
+      <img th:src="/@{${patient.photosImagePath}}" />
         <h3 th:text="'First Name: ' + ${firstName}"></h3>
         <h3 th:text="'Last Name: ' + ${lastName}"></h3>
         <h3 th:text="'Age: ' + ${age}"></h3>
