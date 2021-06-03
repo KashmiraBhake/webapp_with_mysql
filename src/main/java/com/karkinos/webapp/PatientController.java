@@ -191,24 +191,25 @@ public class PatientController {
     public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable long id)
         {
         Optional<Patient> patientData = patientRepository.findById(id);
-        Patient _patient = patientData.get();
+        // Patient _patient = patientData.get();
         // _patient.setFirstName(patient.getFirstName());
         // _patient.setLastName(patient.getLastName());
         // _patient.setAge(patient.getAge());
         // _patient.setGender(patient.getGender());
         // _patient.setCity(patient.getCity());
         // _patient.setPincode(patient.getPincode());
-        // patientRepository.save(_patient);
+        //patientRepository.save(_patient);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
-        modelAndView.addObject("photos", _patient.getPhotosImagePath());
-        modelAndView.addObject("firstName", _patient.getFirstName());
-        modelAndView.addObject("lastName", _patient.getLastName());
-        modelAndView.addObject("age", _patient.getAge());
-        modelAndView.addObject("gender", _patient.getGender());
-        modelAndView.addObject("city", _patient.getCity());
-        modelAndView.addObject("pincode", _patient.getPincode());
-        return modelAndView;
+        modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
+        modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
+        modelAndView.addObject("firstName", patientData.get().getFirstName());
+        modelAndView.addObject("lastName",patientData.get().getLastName());
+        modelAndView.addObject("age", patientData.get().getAge());
+        modelAndView.addObject("gender", patientData.get().getGender());
+        modelAndView.addObject("city", patientData.get().getCity());
+        modelAndView.addObject("pincode", patientData.get().getPincode());
+         return modelAndView;
         
     }
 }
