@@ -33,6 +33,7 @@ public class MvcConfig implements WebMvcConfigurer {
     //     registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     // }
     }
+    
     @Override
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/").setViewName("redirect:/view.html");

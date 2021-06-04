@@ -18,6 +18,7 @@
             <th>Pin Code</th>
             <th>Action</th>
             <th>Upload Profile Photo</th>
+            <th>Upload Relevant Documents</th>
             <th>View Profile</th>
         </tr>
         </thead>
@@ -37,6 +38,9 @@
                 </td>
                 <td>
                     <a th:href="@{'/upload_pic/' + ${patient.id}}">Upload Profile Picture</a>
+                </td>
+                <td>
+                    <a th:href="@{'/docs/' + ${patient.id}}">Upload Docs/a>
                 </td>
                 <td>
                     <a th:href="@{'/view/' + ${patient.id}}">View Profile</a>

@@ -22,6 +22,7 @@ public class Patient {
   private String pincode;
   @Column(nullable = true, length = 64)
   private String photos;
+  private String docs;
 
   protected Patient() {
 
@@ -32,7 +33,7 @@ public class Patient {
         return id;
     }
 
-  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos) {
+  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos,String docs) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
@@ -40,6 +41,7 @@ public class Patient {
     this.city = city;
     this.pincode = pincode;
     this.photos=photos;
+    this.docs=docs;
   }
 
   
@@ -101,10 +103,23 @@ public class Patient {
   public void setPhotos(String photos) {
     this.photos = photos;
   }
+  public String getDocs() {
+    return docs;
+  }
+  public void setDocs(String docs) {
+    this.docs = docs;
+  }
   @Transient
     public String getPhotosImagePath() {
         if (photos == null || id == 0) return null;
         // if (photos == null) return null;
         return "/patient-photos/" + id + "/" + photos;
     }
+    
+  @Transient
+    public String getDocsFilePath() {
+      if (photos == null || id == 0) return null;
+      // if (photos == null) return null;
+      return "/patient-docs/" + id + "/" + docs;
+  }
 }

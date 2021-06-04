@@ -1,0 +1,29 @@
+<!-- <html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Upload medical reports</h1>
+
+<form action="#" th:action="@{'/docs/add/' + ${id}}" method="post" enctype="multipart/form-data">
+    <p>
+      <label for="uploads">
+         Choose the files you want to upload:
+      </label>
+      <input type="file" id="uploads" name="uploads" multiple>
+    </p>
+    <!-- <p>
+      <label for="text">Pick a text file to upload: </label>
+      <input type="file" id="text" name="text" accept=".txt">
+   </p> -->
+    <!-- <p>
+      <input type="submit" value="Upload">
+    </p>
+  </form> --> -->
+
+  <html xmlns:th="http://www.thymeleaf.org">
+  <body>
+  <h1>Upload new profile photo</h1>
+  <form action="#" th:action="@{'/photos/add/' + ${id}}"  method="post" enctype="multipart/form-data">
+           Document:<input type="file" name="docs" multiple/>
+      <input type="submit" value="Upload" />
+  </form>
+  </body>
+  </html>
