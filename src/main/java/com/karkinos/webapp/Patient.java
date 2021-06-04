@@ -22,7 +22,9 @@ public class Patient {
   private String pincode;
   @Column(nullable = true, length = 64)
   private String photos;
-
+  private String docName;
+  // private long docSize;
+  private byte[] docContent;
   protected Patient() {
 
   }
@@ -32,7 +34,7 @@ public class Patient {
         return id;
     }
 
-  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos) {
+  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos,String docName,byte[] docContent) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
@@ -40,9 +42,10 @@ public class Patient {
     this.city = city;
     this.pincode = pincode;
     this.photos=photos;
+    this.docName = docName;
+    // this.docSize = docSize;
+    this.docContent = docContent;
   }
-
-  
   public void setId(long id) {
     this.id = id;
   }
@@ -107,4 +110,23 @@ public class Patient {
         // if (photos == null) return null;
         return "/patient-photos/" + id + "/" + photos;
     }
+    
+public String getDocName() {
+  return docName;
+}
+public void setDocName(String docName) {
+  this.docName = docName;
+}
+// public long getDocSize() {
+//   return docSize;
+// }
+// public void setDocSize(long docSize) {
+//   this.docSize = docSize;
+//}
+public byte[] getDocContent() {
+  return docContent;
+}
+public void setDocContent(byte[] docContent) {
+  this.docContent = docContent;
+}
 }
