@@ -118,7 +118,7 @@ public class Patient {
     
   @Transient
     public String getDocsFilePath() {
-      if (photos == null || id == 0) return null;
+      if (docs == null || id == 0) return null;
       // if (photos == null) return null;
       return "/patient-docs/" + id + "/" + docs;
   }

@@ -20,9 +20,9 @@
 
   <html xmlns:th="http://www.thymeleaf.org">
   <body>
-  <h1>Upload new profile photo</h1>
-  <form action="#" th:action="@{'/photos/add/' + ${id}}"  method="post" enctype="multipart/form-data">
-           Document:<input type="file" name="docs" multiple/>
+  <h1>Upload medical documents</h1>
+  <form action="#" th:action="@{'/docs/add/' + ${id}}"  method="post" enctype="multipart/form-data">
+           Document:<input type="file" name="document"/>
       <input type="submit" value="Upload" />
   </form>
   </body>

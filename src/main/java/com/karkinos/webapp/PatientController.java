@@ -201,14 +201,14 @@ public class PatientController {
 
     @RequestMapping(path="/docs/add/{id}",method=RequestMethod.POST)
     public String savePatientdoc(Patient patient,
-    @RequestParam("docs") MultipartFile multipartFile, 
+    @RequestParam("document") MultipartFile multipartFile, 
     RedirectAttributes ra,
     @PathVariable(name = "id") long id,
     Model model) 
     
     throws IOException {
-    
-    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        System.out.println("add doc and ty");
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     Optional<Patient> patientData = patientRepository.findById(id);
     Patient _patient = patientData.get();
     System.out.println(_patient.getFirstName());
