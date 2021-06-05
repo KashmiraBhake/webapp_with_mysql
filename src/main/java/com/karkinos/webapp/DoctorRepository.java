@@ -20,6 +20,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     //Object findByCity(String city);
    List<Doctor> findBySpecializationAndCity(String specialization, String city);
+   List<Doctor> findAll();
      
     //@Query(value="SELECT d FROM Doctor d where d.specialization = ?0 AND d.city = ?0",nativeQuery=true )
 }

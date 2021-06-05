@@ -78,6 +78,15 @@ public class PatientController {
         System.out.println("search patient form");
         return modelAndView;
     }
+    //*******************************************************//
+    @RequestMapping(path="/view_all_patient",method=RequestMethod.GET)
+    public ModelAndView view_all_patient() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("view_all_patient");
+        modelAndView.addObject("patients", patientRepository.findAll());
+        System.out.println("search patient form");
+        return modelAndView;
+    }
 
     @RequestMapping(path="/search_patient",method=RequestMethod.GET)
     public ModelAndView search_patient(@RequestParam String firstName) 
