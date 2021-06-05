@@ -278,61 +278,30 @@ public class PatientController {
          return modelAndView;
         
     }
-    // @RequestMapping(path = "/downloads",method=RequestMethod.GET)
-    // public void downloadDoc(@Param("id") Long id,HttpServletResponse response) throws Exception{
-    //     Optional<Patient> result = patientRepository.findById(id);
-    //     if(!result.isPresent()){
-    //         throw new Exception("Could not find document with ID: " + id);
-    //     }
-
-    //     Patient patient = result.get();
-
-    //     response.setContentType("application/octet-stream");
-    //     String headerKey = "Content-Disposition";
-    //     String headerValue = "attachment; filename=" + patient.getDocs();
-
-    //     response.setHeader(headerKey,headerValue);
-    //     ServletOutputStream outputStream = response.getOutputStream();
-
-    //     outputStream.write(patient.getDocsFilePath());
-    //     outputStream.close();
-        
-
-    // }
+    
     @RequestMapping(path = "/downloads/{id}",method=RequestMethod.GET)
     public void downloadDoc(HttpServletResponse response,@PathVariable Long id) 
     throws Exception{
-        System.out.println("11");
         Optional<Patient> result = patientRepository.findById(id);
-        System.out.println("2");
-        // if(!result.isPresent()){
-        //     throw new Exception("Could not find document with ID: " + id);
-        // }
         Patient patient = result.get();
-        System.out.println("3");
-        System.out.println(patient.getId());
-        //File file = new File(patient.getDocsFilePath());
+       
         File file = new File("/workspace/webapp_with_mysql/." + patient.getDocsFilePath());
-        System.out.println("4");
+
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        System.out.println("5");
         String headerValue = "attachment; filename=" + patient.getDocs();
-        System.out.println("6");
+
         response.setHeader(headerKey,headerValue);
         ServletOutputStream outputStream = response.getOutputStream();
-        System.out.println("7");
         BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        System.out.println("8");
+
         byte[] buffer = new byte[8192];
         int bytesRead = -1;
-        System.out.println("9");
+
         while ((bytesRead = inputStream.read(buffer)) != -1){
             outputStream.write(buffer, 0, bytesRead);
-            System.out.println("10");
-
         }
-        System.out.println(patient.getId());
+   
         inputStream.close();
         outputStream.close();
     }
