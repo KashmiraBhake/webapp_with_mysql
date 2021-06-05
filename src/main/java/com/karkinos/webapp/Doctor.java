@@ -97,6 +97,7 @@ public class Doctor {
   public void setPincode(Integer pincode) {
     this.pincode = pincode;
   }
+  
 
   
 }

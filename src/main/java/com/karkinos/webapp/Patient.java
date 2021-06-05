@@ -1,10 +1,17 @@
 package com.karkinos.webapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+//import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,7 +29,11 @@ public class Patient {
   private String pincode;
   @Column(nullable = true, length = 64)
   private String photos;
-  private String docs;
+  //private String docs;
+
+  @OneToMany(mappedBy= "patient",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  //@JoinColumn(name = "patient_id",referencedColumnName = "id")
+  private List<Documents> documents = new ArrayList<>();
 
   protected Patient() {
 
@@ -33,7 +44,7 @@ public class Patient {
         return id;
     }
 
-  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos,String docs) {
+  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
@@ -41,7 +52,7 @@ public class Patient {
     this.city = city;
     this.pincode = pincode;
     this.photos=photos;
-    this.docs=docs;
+    //this.docs=docs;
   }
 
   
@@ -103,12 +114,19 @@ public class Patient {
   public void setPhotos(String photos) {
     this.photos = photos;
   }
-  public String getDocs() {
-    return docs;
+  
+  public List<Documents> getDocuments() {
+    return documents;
   }
-  public void setDocs(String docs) {
-    this.docs = docs;
+  public void setDocuments(List<Documents> documents) {
+    this.documents = documents;
   }
+  // public String getDocs() {
+  //   return docs;
+  // }
+  // public void setDocs(String docs) {
+  //   this.docs = docs;
+  // }
   @Transient
     public String getPhotosImagePath() {
         if (photos == null || id == 0) return null;
@@ -116,10 +134,10 @@ public class Patient {
         return "/patient-photos/" + id + "/" + photos;
     }
     
-  @Transient
-    public String getDocsFilePath() {
-      if (docs == null || id == 0) return null;
-      // if (photos == null) return null;
-      return "/patient-docs/" + id + "/" + docs;
-  }
+  // @Transient
+  //   public String getDocsFilePath() {
+  //     if (docs == null || id == 0) return null;
+  //     // if (photos == null) return null;
+  //     return "/patient-docs/" + id + "/" + docs;
+  // }
 }

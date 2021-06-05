@@ -34,6 +34,9 @@ public class PatientController {
  
     @Autowired
     PatientRepository patientRepository;
+    @Autowired
+    DocumentsRepository documentsRepository;
+
     @RequestMapping("/")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
@@ -58,7 +61,7 @@ public class PatientController {
         @RequestParam String gender,
         @RequestParam String city,
         @RequestParam Integer pincode) {
-        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos(),patient.getDocs()));
+        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("submitmessage");
         modelAndView.addObject("firstName", firstName);
@@ -78,11 +81,11 @@ public class PatientController {
         System.out.println("search patient form");
         return modelAndView;
     }
-    //*******************************************************//
+    
     @RequestMapping(path="/view_all_patient",method=RequestMethod.GET)
     public ModelAndView view_all_patient() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("view_all_patient");
+        modelAndView.setViewName("search_result");
         modelAndView.addObject("patients", patientRepository.findAll());
         System.out.println("search patient form");
         return modelAndView;
@@ -97,7 +100,7 @@ public class PatientController {
         System.out.println("search patient");
         return modelAndView;
     }
-
+//*******************************************************//
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditPatientPage(@PathVariable(name = "id") Long id) {
     ModelAndView modelAndView = new ModelAndView();
@@ -133,14 +136,14 @@ public class PatientController {
         return modelAndView;
         
     }
-    
+ //*******************************************************//   
     @RequestMapping("/delete/{id}")
     public String deletePatient(@PathVariable(name = "id") Long id) {
     patientRepository.deleteById(id);
     System.out.println("delete");
     return "redirect:/";       
     }
-
+//*******************************************************//
     @RequestMapping(path="/upload_pic/{id}",method = RequestMethod.GET)
     public ModelAndView showupload_pic_page(@PathVariable(name = "id") Long id) {
    
@@ -202,7 +205,7 @@ public class PatientController {
     
         return "ty_message";
     }
-    
+//*******************************************************//    
     @RequestMapping(path="/docs/{id}",method = RequestMethod.GET)
     public ModelAndView doc_upload(@PathVariable(name = "id") Long id) {
    
@@ -216,7 +219,7 @@ public class PatientController {
     }
 
     @RequestMapping(path="/docs/add/{id}",method=RequestMethod.POST)
-    public String savePatientdoc(Patient patient,
+    public String savedoc(Documents documents,
     @RequestParam("document") MultipartFile multipartFile, 
     RedirectAttributes ra,
     @PathVariable(name = "id") Long id,
@@ -225,29 +228,25 @@ public class PatientController {
     throws IOException {
         System.out.println("add doc and ty");
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    Optional<Patient> patientData = patientRepository.findById(id);
-    Patient _patient = patientData.get();
-    System.out.println(_patient.getFirstName());
-        _patient.setDocs(fileName);
+    Optional<Documents> documentData = documentsRepository.findById(id);
+    Documents _documents =documentData.get();
+    
+        _documents.setDocName(fileName);
 
-        System.out.println(_patient.getFirstName()); 
+         // _patient.setFirstName(_patient.getFirstName());
+        // _patient.setLastName(_patient.getLastName());
+        // _patient.setAge(_patient.getAge());
+        // _patient.setGender(_patient.getGender());
+        // _patient.setCity(_patient.getCity());
+        // _patient.setPincode(_patient.getPincode());
+        // _patient.setPhotos(_patient.getPhotosImagePath());
+        // System.out.println(patient.getFirstName());
 
-        _patient.setFirstName(_patient.getFirstName());
-        _patient.setLastName(_patient.getLastName());
-        _patient.setAge(_patient.getAge());
-        _patient.setGender(_patient.getGender());
-        _patient.setCity(_patient.getCity());
-        _patient.setPincode(_patient.getPincode());
-        _patient.setPhotos(_patient.getPhotosImagePath());
-        System.out.println(patient.getFirstName());
-
-        Patient savedPatient = patientRepository.save(_patient);
+        Documents savedDocuments = documentsRepository.save(_documents);
  
-        String uploadDir = "./patient-docs/" + savedPatient.getId();
+        String uploadDir = "./patient-docs/" + savedDocuments.getDocId();
         // System.out.println(patient1.get().getFirstName());
-        System.out.println(savedPatient.getId());
-        System.out.println(savedPatient.getLastName());
-        System.out.println("add pic and ty");
+        
       
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
@@ -260,8 +259,7 @@ public class PatientController {
         } catch (IOException ioe) {        
             throw new IOException("Could not save file: " + fileName, ioe);
         }
-        System.out.println("add doc and ty");
-        System.out.println(patient.getId());
+        
         return "tyfile_message";
     }
 
@@ -281,7 +279,7 @@ public class PatientController {
         modelAndView.addObject("pincode", patientData.get().getPincode());
         modelAndView.addObject("id", patientData.get().getId());
         //modelAndView.addObject("DocsFilePath",patientData.get().getDocsFilePath());
-        modelAndView.addObject("docs", patientData.get().getDocs());
+        //modelAndView.addObject("docs", patientData.get().getDocs());
         System.out.println("final view");
         System.out.println(patient.getId());
          return modelAndView;
@@ -291,14 +289,14 @@ public class PatientController {
     @RequestMapping(path = "/downloads/{id}",method=RequestMethod.GET)
     public void downloadDoc(HttpServletResponse response,@PathVariable Long id) 
     throws Exception{
-        Optional<Patient> result = patientRepository.findById(id);
-        Patient patient = result.get();
+        Optional<Documents> result = documentsRepository.findById(id);
+        Documents documents = result.get();
        
-        File file = new File("/workspace/webapp_with_mysql/." + patient.getDocsFilePath());
+        File file = new File("/workspace/webapp_with_mysql/." + documents.getDocsFilePath());
 
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + patient.getDocs();
+        String headerValue = "attachment; filename=" + documents.getDocName();
 
         response.setHeader(headerKey,headerValue);
         ServletOutputStream outputStream = response.getOutputStream();
