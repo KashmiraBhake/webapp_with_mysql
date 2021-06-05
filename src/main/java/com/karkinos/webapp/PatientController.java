@@ -8,7 +8,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -263,10 +267,32 @@ public class PatientController {
         modelAndView.addObject("gender", patientData.get().getGender());
         modelAndView.addObject("city", patientData.get().getCity());
         modelAndView.addObject("pincode", patientData.get().getPincode());
-        modelAndView.addObject("DocsFilePath",patientData.get().getDocsFilePath());
+        //modelAndView.addObject("DocsFilePath",patientData.get().getDocsFilePath());
+        modelAndView.addObject("docs", patientData.get().getDocs());
         System.out.println("final view");
          return modelAndView;
         
+    }
+    @RequestMapping(path = "/downloads",method=RequestMethod.GET)
+    public void downloadDoc(@Param("id") long id,HttpServletResponse response) throws Exception{
+        Optional<Patient> result = patientRepository.findById(id);
+        if(!result.isPresent()){
+            throw new Exception("Could not find document with ID: " + id);
+        }
+
+        Patient patient = result.get();
+
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=" + patient.getDocs();
+
+        response.setHeader(headerKey,headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        outputStream.write(patient.getDocsFilePath());
+        outputStream.close();
+        
+
     }
     
 }
