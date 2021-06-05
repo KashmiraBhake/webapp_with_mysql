@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 @Table(name = "patient")
 public class Patient {
 
-  private long id;
+  private Long id;
   private String firstName;
   private String lastName;
   private String age;
@@ -45,7 +45,7 @@ public class Patient {
   }
 
   
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

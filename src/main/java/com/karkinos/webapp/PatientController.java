@@ -1,5 +1,8 @@
 package com.karkinos.webapp;
  
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -12,7 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+//import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -87,7 +90,7 @@ public class PatientController {
     }
 
     @RequestMapping("/edit/{id}")
-    public ModelAndView showEditPatientPage(@PathVariable(name = "id") long id) {
+    public ModelAndView showEditPatientPage(@PathVariable(name = "id") Long id) {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("edit_patient");
     // Patient patient = patientRepository.get(id);
@@ -98,7 +101,7 @@ public class PatientController {
     }
 
     @RequestMapping(path = "/update/{id}",method=RequestMethod.POST)
-    public ModelAndView updatePatient(@ModelAttribute("patient") Patient patient, @PathVariable long id)
+    public ModelAndView updatePatient(@ModelAttribute("patient") Patient patient, @PathVariable Long id)
         {
         Optional<Patient> patientData = patientRepository.findById(id);
         Patient _patient = patientData.get();
@@ -123,14 +126,14 @@ public class PatientController {
     }
     
     @RequestMapping("/delete/{id}")
-    public String deletePatient(@PathVariable(name = "id") long id) {
+    public String deletePatient(@PathVariable(name = "id") Long id) {
     patientRepository.deleteById(id);
     System.out.println("delete");
     return "redirect:/";       
     }
 
     @RequestMapping(path="/upload_pic/{id}",method = RequestMethod.GET)
-    public ModelAndView showupload_pic_page(@PathVariable(name = "id") long id) {
+    public ModelAndView showupload_pic_page(@PathVariable(name = "id") Long id) {
    
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("upload_pic");
@@ -145,7 +148,7 @@ public class PatientController {
     public String savePatientpic(Patient patient,
     @RequestParam("image") MultipartFile multipartFile, 
     RedirectAttributes ra,
-    @PathVariable(name = "id") long id,
+    @PathVariable(name = "id") Long id,
     Model model) 
     
     throws IOException {
@@ -192,7 +195,7 @@ public class PatientController {
     }
     
     @RequestMapping(path="/docs/{id}",method = RequestMethod.GET)
-    public ModelAndView doc_upload(@PathVariable(name = "id") long id) {
+    public ModelAndView doc_upload(@PathVariable(name = "id") Long id) {
    
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("doc_upload");
@@ -207,7 +210,7 @@ public class PatientController {
     public String savePatientdoc(Patient patient,
     @RequestParam("document") MultipartFile multipartFile, 
     RedirectAttributes ra,
-    @PathVariable(name = "id") long id,
+    @PathVariable(name = "id") Long id,
     Model model) 
     
     throws IOException {
@@ -249,12 +252,12 @@ public class PatientController {
             throw new IOException("Could not save file: " + fileName, ioe);
         }
         System.out.println("add doc and ty");
-    
+        System.out.println(patient.getId());
         return "tyfile_message";
     }
 
     @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
-    public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable long id)
+    public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable Long id)
         {
         Optional<Patient> patientData = patientRepository.findById(id);
         ModelAndView modelAndView = new ModelAndView();
@@ -267,32 +270,70 @@ public class PatientController {
         modelAndView.addObject("gender", patientData.get().getGender());
         modelAndView.addObject("city", patientData.get().getCity());
         modelAndView.addObject("pincode", patientData.get().getPincode());
+        modelAndView.addObject("id", patientData.get().getId());
         //modelAndView.addObject("DocsFilePath",patientData.get().getDocsFilePath());
         modelAndView.addObject("docs", patientData.get().getDocs());
         System.out.println("final view");
+        System.out.println(patient.getId());
          return modelAndView;
         
     }
-    @RequestMapping(path = "/downloads",method=RequestMethod.GET)
-    public void downloadDoc(@Param("id") long id,HttpServletResponse response) throws Exception{
-        Optional<Patient> result = patientRepository.findById(id);
-        if(!result.isPresent()){
-            throw new Exception("Could not find document with ID: " + id);
-        }
+    // @RequestMapping(path = "/downloads",method=RequestMethod.GET)
+    // public void downloadDoc(@Param("id") Long id,HttpServletResponse response) throws Exception{
+    //     Optional<Patient> result = patientRepository.findById(id);
+    //     if(!result.isPresent()){
+    //         throw new Exception("Could not find document with ID: " + id);
+    //     }
 
-        Patient patient = result.get();
+    //     Patient patient = result.get();
 
-        response.setContentType("application/octet-stream");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + patient.getDocs();
+    //     response.setContentType("application/octet-stream");
+    //     String headerKey = "Content-Disposition";
+    //     String headerValue = "attachment; filename=" + patient.getDocs();
 
-        response.setHeader(headerKey,headerValue);
-        ServletOutputStream outputStream = response.getOutputStream();
+    //     response.setHeader(headerKey,headerValue);
+    //     ServletOutputStream outputStream = response.getOutputStream();
 
-        outputStream.write(patient.getDocsFilePath());
-        outputStream.close();
+    //     outputStream.write(patient.getDocsFilePath());
+    //     outputStream.close();
         
 
+    // }
+    @RequestMapping(path = "/downloads/{id}",method=RequestMethod.GET)
+    public void downloadDoc(HttpServletResponse response,@PathVariable Long id) 
+    throws Exception{
+        System.out.println("11");
+        Optional<Patient> result = patientRepository.findById(id);
+        System.out.println("2");
+        // if(!result.isPresent()){
+        //     throw new Exception("Could not find document with ID: " + id);
+        // }
+        Patient patient = result.get();
+        System.out.println("3");
+        System.out.println(patient.getId());
+        //File file = new File(patient.getDocsFilePath());
+        File file = new File("/workspace/webapp_with_mysql/." + patient.getDocsFilePath());
+        System.out.println("4");
+        response.setContentType("application/octet-stream");
+        String headerKey = "Content-Disposition";
+        System.out.println("5");
+        String headerValue = "attachment; filename=" + patient.getDocs();
+        System.out.println("6");
+        response.setHeader(headerKey,headerValue);
+        ServletOutputStream outputStream = response.getOutputStream();
+        System.out.println("7");
+        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        System.out.println("8");
+        byte[] buffer = new byte[8192];
+        int bytesRead = -1;
+        System.out.println("9");
+        while ((bytesRead = inputStream.read(buffer)) != -1){
+            outputStream.write(buffer, 0, bytesRead);
+            System.out.println("10");
+
+        }
+        System.out.println(patient.getId());
+        inputStream.close();
+        outputStream.close();
     }
-    
 }
