@@ -12,32 +12,48 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity 
 @Table(name = "document")
 public class Documents {
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long docId;
   private String docName;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "patient_id",nullable = false)
-  private Patient patient;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
+    @JsonProperty("patient_id")
+  private Patient patients;
+
+  
     
   protected Documents() {
     
   }
-  @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+ 
+    
+    public Documents(String docName,Patient patients){
+      this.docName=docName;
+      this.patients = patients;
+
+    }
+
     public Long getDocId() {
       return docId;
-    }
-    public Documents(String docName,Patient patient){
-      this.docName=docName;
-      this.patient = patient;
-
     }
     public void setDocId(Long docId) {
       this.docId = docId;
@@ -48,11 +64,11 @@ public class Documents {
     public void setDocName(String docName) {
       this.docName = docName;
     }
-    public Patient getPatient() {
-      return patient;
+    public Patient getPatients() {
+      return patients;
     }
-    public void setPatient(Patient patient) {
-      this.patient = patient;
+    public void setPatients(Patient patients) {
+      this.patients = patients;
     }
     
     @Transient

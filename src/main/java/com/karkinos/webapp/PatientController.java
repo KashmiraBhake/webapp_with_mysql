@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.ServletOutputStream;
@@ -61,7 +62,7 @@ public class PatientController {
         @RequestParam String gender,
         @RequestParam String city,
         @RequestParam Integer pincode) {
-        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos(),patient.getDocuments()));
+        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos(), patient.getDocuments()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("submitmessage");
         modelAndView.addObject("firstName", firstName);
@@ -212,42 +213,38 @@ public class PatientController {
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("doc_upload");
     modelAndView.addObject("patient", patientRepository.findById(id));
-    System.out.println(id);
+    System.out.println("1-1");
     modelAndView.addObject("id", id);
     System.out.println("upload doc");
     return modelAndView;
     }
-
+//*******************************************************//    
     @RequestMapping(path="/docs/add/{id}",method=RequestMethod.POST)
-    public String savedoc(Documents documents,
-    @RequestParam("document") MultipartFile multipartFile, 
-    RedirectAttributes ra,
-    @PathVariable(name = "id") Long id,
-    Model model) 
-    
-    throws IOException {
-        System.out.println("add doc and ty");
+    public ModelAndView savedoc(@ModelAttribute("documents") Documents documents,
+    @RequestParam("document") MultipartFile multipartFile,
+    @PathPatient (name = "id") Patient id,Documents docs) 
+    throws IOException{
+        System.out.println("2-1");
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    Optional<Documents> documentData = documentsRepository.findById(id);
-    Documents _documents =documentData.get();
-    
-        _documents.setDocName(fileName);
-
-         // _patient.setFirstName(_patient.getFirstName());
-        // _patient.setLastName(_patient.getLastName());
-        // _patient.setAge(_patient.getAge());
-        // _patient.setGender(_patient.getGender());
-        // _patient.setCity(_patient.getCity());
-        // _patient.setPincode(_patient.getPincode());
-        // _patient.setPhotos(_patient.getPhotosImagePath());
-        // System.out.println(patient.getFirstName());
-
+        System.out.println("2-2");
+        System.out.println(fileName);
+        System.out.println("2-3");
+        System.out.println(documents.getDocName());
+        System.out.println(documents.getPatients());
+        documentsRepository.save(new Documents(fileName,id));
+        System.out.println("2-4");
+        List<Documents> documentsData = documentsRepository.findByPatients(id);
+        System.out.println(documentsRepository.findByPatients(id));
+        System.out.println("2-5");
+        Documents _documents =documentsData.get();
+        System.out.println(documentsData.get());
+        System.out.println("2-6"); 
         Documents savedDocuments = documentsRepository.save(_documents);
- 
-        String uploadDir = "./patient-docs/" + savedDocuments.getDocId();
-        // System.out.println(patient1.get().getFirstName());
-        
-      
+        System.out.println(documentsRepository.save(_documents));
+        System.out.println("2-7");
+        String uploadDir = "./patient-docs/" + savedDocuments.getPatients();
+        System.out.println(savedDocuments.getPatients());
+        System.out.println("2-8");
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);}
@@ -259,9 +256,14 @@ public class PatientController {
         } catch (IOException ioe) {        
             throw new IOException("Could not save file: " + fileName, ioe);
         }
-        
-        return "tyfile_message";
+
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("tyfile_message");
+    System.out.println("2-9");
+              
+        return modelAndView;
     }
+    //***********************************************************************************/
 
     @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
     public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable Long id)
