@@ -14,11 +14,15 @@ import java.util.Optional;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+//import com.karkinos.webapp.service.PatientService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
 //import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+//import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -314,4 +318,31 @@ public class PatientController {
         inputStream.close();
         outputStream.close();
     }
+//**************************************************************************************************************** */
+
+	// CommandLineRunner runner(PatientService patientService) {
+	// 	return args -> {
+	// 		// read json and write to db
+	// 		ObjectMapper mapper = new ObjectMapper();
+	// 		TypeReference<List<Patient>> typeReference = new TypeReference<List<patient>>(){};
+	// 		InputStream inputStream = TypeReference.class.getResourceAsStream("/json/Patient.json");
+	// 		try {
+	// 			List<Patient> patient = mapper.readValue(inputStream,typeReference);
+	// 			patientService.save(users);
+	// 			System.out.println("Users Saved!");
+	// 		} catch (IOException e){
+	// 			System.out.println("Unable to save users: " + e.getMessage());
+	// 		}
+	// 	};
+	// }
+    // private PatientService patientService;
+
+    // public PatientController(PatientService patientService) {
+    //     this.patientService = patientService;
+    // }
+
+    // @GetMapping("/list")
+    // public Iterable<Patient> list() {
+    //     return patientService.list();
+    // }
 }

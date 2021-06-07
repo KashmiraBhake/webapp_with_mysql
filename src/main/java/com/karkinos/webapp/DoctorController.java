@@ -2,9 +2,13 @@ package com.karkinos.webapp;
 
 import java.util.Optional;
 
+//import com.karkinos.webapp.service.DoctorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+//import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -117,5 +121,31 @@ public class DoctorController {
     doctorRepository.deleteById(id);
     return "redirect:/";       
     }
-    
+ //**************************************************************************************************************************   
+
+	// CommandLineRunner runner(DoctorService doctorService) {
+	// 	return args -> {
+	// 		// read json and write to db
+	// 		ObjectMapper mapper = new ObjectMapper();
+	// 		TypeReference<List<Doctor>> typeReference = new TypeReference<List<doctor>>(){};
+	// 		InputStream inputStream = TypeReference.class.getResourceAsStream("/json/Doctor.json");
+	// 		try {
+	// 			List<Patient> patient = mapper.readValue(inputStream,typeReference);
+	// 			doctorService.save(doctor);
+	// 			System.out.println("Docror Saved!");
+	// 		} catch (IOException e){
+	// 			System.out.println("Unable to save doctor: " + e.getMessage());
+	// 		}
+	// 	};
+	// }
+    // private DoctorService doctorService;
+
+    // public DoctorController(DoctorService doctorService) {
+    //     this.doctorService = doctorService;
+    // }
+
+    // @GetMapping("/list")
+    // public Iterable<Doctor> list() {
+    //     return doctorService.list();
+    // }
 }
