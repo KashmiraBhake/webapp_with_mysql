@@ -1,6 +1,6 @@
 package com.karkinos.webapp;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -116,5 +116,8 @@ public class Patient {
         // if (photos == null) return null;
         return "/patient-photos/" + id + "/" + photos;
     }
-    
+
+
 }
+    
+

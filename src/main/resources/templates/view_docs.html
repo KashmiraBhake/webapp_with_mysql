@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <title>Patient Documents</title>
+  </head>
+    <body>
+
+<span th:each="doc: ${docs}">
+    <a th:href="@{'/downloads/'+ ${id} + '/' + ${doc}}"><h3 th:text="${doc}"></h3></a>
+</span>

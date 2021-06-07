@@ -75,7 +75,7 @@ public class Documents {
     public String getDocsFilePath() {
         if (docName == null || docId == 0) return null;
         // if (photos == null) return null;
-        return "/patient-docs/" + docId + "/" + docName;
+        return "/patient-docs/" + patients.getId() + "/" ;
     }
 }
       

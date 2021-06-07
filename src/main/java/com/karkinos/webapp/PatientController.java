@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+//import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.ServletOutputStream;
@@ -220,31 +222,35 @@ public class PatientController {
     }
 //*******************************************************//    
     @RequestMapping(path="/docs/add/{id}",method=RequestMethod.POST)
-    public ModelAndView savedoc(@ModelAttribute("documents") Documents documents,
+    public ModelAndView savedoc(@ModelAttribute Documents documents,
     @RequestParam("document") MultipartFile multipartFile,
-    @PathPatient (name = "id") Patient id,Documents docs) 
+    @PathVariable (name = "id") Patient id) 
     throws IOException{
-        System.out.println("2-1");
+ 
+        System.out.println(id);
+   
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println("2-2");
+     
         System.out.println(fileName);
-        System.out.println("2-3");
+  
         System.out.println(documents.getDocName());
+
         System.out.println(documents.getPatients());
-        documentsRepository.save(new Documents(fileName,id));
-        System.out.println("2-4");
+        documentsRepository.save(new Documents(fileName, id));
+       
+
         List<Documents> documentsData = documentsRepository.findByPatients(id);
-        System.out.println(documentsRepository.findByPatients(id));
-        System.out.println("2-5");
-        Documents _documents =documentsData.get();
-        System.out.println(documentsData.get());
-        System.out.println("2-6"); 
+        
+        
+
+        Documents _documents = documentsData.get(0);
+        System.out.println(documentsData.get(0));
+     
         Documents savedDocuments = documentsRepository.save(_documents);
         System.out.println(documentsRepository.save(_documents));
-        System.out.println("2-7");
-        String uploadDir = "./patient-docs/" + savedDocuments.getPatients();
-        System.out.println(savedDocuments.getPatients());
-        System.out.println("2-8");
+
+        String uploadDir = "./patient-docs/" + savedDocuments.getPatients().getId();
+
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);}
@@ -259,7 +265,7 @@ public class PatientController {
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("tyfile_message");
-    System.out.println("2-9");
+
               
         return modelAndView;
     }
@@ -268,9 +274,12 @@ public class PatientController {
     @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
     public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable Long id)
         {
-        Optional<Patient> patientData = patientRepository.findById(id);
+            System.out.println("101");
+            Optional<Patient> patientData = patientRepository.findById(id);
+        System.out.println("102");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
+        System.out.println("103");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -280,25 +289,50 @@ public class PatientController {
         modelAndView.addObject("city", patientData.get().getCity());
         modelAndView.addObject("pincode", patientData.get().getPincode());
         modelAndView.addObject("id", patientData.get().getId());
-        //modelAndView.addObject("DocsFilePath",patientData.get().getDocsFilePath());
-        //modelAndView.addObject("docs", patientData.get().getDocs());
+        //modelAndView.addObject("docs", patientData.getDocName());
+        
+        System.out.println("104"); 
         System.out.println("final view");
-        System.out.println(patient.getId());
+    
          return modelAndView;
         
     }
+    //************************************************ */
+
+    @RequestMapping(path = "/view_docs/{id}",method=RequestMethod.GET)
+    public ModelAndView viewDocs(@ModelAttribute("documents") Documents documents, @PathVariable Patient id)
+        {
+            System.out.println("201");
+        List<Documents> documentsData = documentsRepository.findByPatients(id);
+        System.out.println("202");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("view_docs");
+        List<String> docs = new ArrayList<>();
+        for(Documents docList : documentsData ) {
+            docs.add(docList.getDocName());
+        }     
+        System.out.println("***********((((((((" + docs);
+        modelAndView.addObject("docs", docs);
+        modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
+        return modelAndView;        
+        
+    }
+
     
-    @RequestMapping(path = "/downloads/{id}",method=RequestMethod.GET)
-    public void downloadDoc(HttpServletResponse response,@PathVariable Long id) 
+    //******************************************************** */
+    @RequestMapping(path = "/downloads/{id}/{doc}",method=RequestMethod.GET)
+    public void downloadDoc(HttpServletResponse response,@PathVariable Patient id,@PathVariable String doc) 
     throws Exception{
-        Optional<Documents> result = documentsRepository.findById(id);
-        Documents documents = result.get();
+        System.out.println("--------------------");
+        System.out.println(doc);
+        List<Documents> result = documentsRepository.findByPatients(id);
+        Documents documents = result.get(0);
        
-        File file = new File("/workspace/webapp_with_mysql/." + documents.getDocsFilePath());
+        File file = new File("/workspace/webapp_with_mysql/." + documents.getDocsFilePath() + doc);
 
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=" + documents.getDocName();
+        String headerValue = "attachment; filename=" + doc;
 
         response.setHeader(headerKey,headerValue);
         ServletOutputStream outputStream = response.getOutputStream();
