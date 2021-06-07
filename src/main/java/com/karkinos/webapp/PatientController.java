@@ -61,7 +61,7 @@ public class PatientController {
         @RequestParam String gender,
         @RequestParam String city,
         @RequestParam Integer pincode) {
-        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos()));
+        patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos(),patient.getDocuments()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("submitmessage");
         modelAndView.addObject("firstName", firstName);

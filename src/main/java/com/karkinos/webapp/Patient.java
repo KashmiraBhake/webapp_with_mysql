@@ -7,9 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+//import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 //import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,11 +31,11 @@ public class Patient {
   private String pincode;
   @Column(nullable = true, length = 64)
   private String photos;
-  //private String docs;
+  
 
-  @OneToMany(mappedBy= "patient",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  //@JoinColumn(name = "patient_id",referencedColumnName = "id")
-  private List<Documents> documents = new ArrayList<>();
+  @OneToMany(mappedBy= "patient",cascade = CascadeType.ALL,targetEntity = Documents.class,fetch = FetchType.LAZY)
+  
+  private List<Documents> document = new ArrayList<>();
 
   protected Patient() {
 
@@ -44,7 +46,7 @@ public class Patient {
         return id;
     }
 
-  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos) {
+  public Patient(String firstName, String lastName, String age, String gender, String city, String pincode, String photos,List<Documents> document) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.age = age;
@@ -52,6 +54,7 @@ public class Patient {
     this.city = city;
     this.pincode = pincode;
     this.photos=photos;
+    this.document = document;
     //this.docs=docs;
   }
 
@@ -116,17 +119,12 @@ public class Patient {
   }
   
   public List<Documents> getDocuments() {
-    return documents;
+    return document;
   }
   public void setDocuments(List<Documents> documents) {
-    this.documents = documents;
+    this.document = documents;
   }
-  // public String getDocs() {
-  //   return docs;
-  // }
-  // public void setDocs(String docs) {
-  //   this.docs = docs;
-  // }
+
   @Transient
     public String getPhotosImagePath() {
         if (photos == null || id == 0) return null;

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 //import javax.persistence.Transient;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity 
@@ -23,11 +23,8 @@ public class Documents {
   private Long docId;
   private String docName;
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = true, cascade = CascadeType.PERSIST)
-  @JoinTable(name = "patient_documents", joinColumns = @JoinColumn(name = "doc_id", referencedColumnName = "docId", nullable = true), 
-		inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = true))
-	@JsonIgnoreProperties("documentsList")
-  //@JoinColumn(name = "patient_id")
+  @ManyToOne(optional = true, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+  @JoinColumn(name = "patient_id",referencedColumnName = "id")
   private Patient patient;
     
   protected Documents() {
@@ -38,8 +35,9 @@ public class Documents {
     public Long getDocId() {
       return docId;
     }
-    public Documents(String docName){
+    public Documents(String docName,Patient patient){
       this.docName=docName;
+      this.patient = patient;
 
     }
     public void setDocId(Long docId) {
