@@ -1,44 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="full-page">
-        <div class="navbar">
-            <div>
-                <a href="/">
-                    <img src="/workspace/webapp_with_mysql/src/main/resources/images/healthcare-nursing-generic-logo.png" alt="Healthcare" style="width:42px;height:42px;">
-                  </a>
+<html lang="en" xlmns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home Page</title>
+    </head>
+    <body style=" margin: 0;padding: 0;box-sizing: border-box;">
+        <div style="height: 100%;width: 100%;background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/images/https___specials-images.forbesimg.com_imageserve_5dbb4182d85e3000078fddae_0x0.jpg');background-position: center;
+        background-size: cover;
+        position: absolute;">
+            <div style="display:flex;align-items: center;padding: 20px;padding-left: 50px;padding-right: 30px;padding-top: 50px;">
+                <div>
+                    <a href="/" style="text-decoration: none;
+                    color: aqua;
+                    font-size: 30px;">Healthcare<br> WebApp</a>
+                </div>
+                <nav style="flex: 1;text-align: right;">
+                    <ul id='MenuItems' style="display: inline-block;list-style: none;">
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/new_patient" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">New Patient</a></li>
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/search_patient_form" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">Search Patient</a></li>
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/view_all_patient" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">View Patient</a></li>
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/new_doctor" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">New Doctor</a></li>
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/search_doctor_form" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">Search Doctor</a></li>
+                        <li style="display: inline-block;margin-right: 70px;">
+                            <a href="/view_all_doctor" style="text-decoration: none; font-size: 20px; color: white;
+                            font-family: sans-serif;">View Doctor</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul id='MenuItems'>
-                    <li><a href="/new_patient">New Patient</a></li>
-                    <li><a href="/search_patient_form">Search Patient</a></li>
-                    <li><a href="/view_all_patient">View Patient</a></li>
-                    <li><a href="/new_doctor">New Doctor</a></li>
-                    <li><a href="/search_doctor_form">Search Doctor</a></li>
-                    <li><a href="/view_all_doctor">View Doctor</a></li>
-                </ul>
-            </nav>
-
         </div>
-    </div>
-    <!-- <h1>Patient details</h1>
-    <a href ="/new_patient">Create new patient</a>
-    <br/>
-    <a href ="/search_patient_form"> Search a patient</a>
-    <br/>
-    <a href ="/view_all_patient"> View all patients</a>
-    <hr>
-     <h1>Doctor details</h1>
-    <a href ="/new_doctor"> Create new doctor</a>
-    <br/>
-    <a href ="/search_doctor_form"> Search a doctor</a>
-    <br/>
-    <a href ="/view_all_doctor"> View all doctors</a> -->
-</body>
-
+    </body>
 </html>
