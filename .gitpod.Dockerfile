@@ -10,15 +10,16 @@ RUN apt-get update \
 USER kb
 
 
+
 ARG SSL_KEYSTORE_PASSWORD
 USER root
 RUN mkdir -p /tmp/mysql && \
     cd /tmp/mysql && \
-    wgethttps://osdn.net/projects/sfnet_mysqljson/downloads/mysqljsonexport/mysqljsonexport_2.0/mysqljsonexport-2.0.tar.gz && \
+    wget https://sourceforge.net/projects/mysqljson/files/mysqljsonimport/mysqljsonimport_2.0/mysqljsonimport-2.0.tar.gz && \
     tar xf mysql.tgz && \
     cd mysql-* && \
     sudo cp bin/* /usr/local/bin/ && \
     rm -rf /tmp/mysql && \
     sudo mkdir -p /data/db && \
-    sudo chown gitpod:gitpod 
+    sudo chown gitpod:gitpod -R /data/db
 USER kb
