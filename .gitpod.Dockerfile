@@ -10,6 +10,8 @@ RUN apt-get update \
 USER kb
 
 
+ARG SSL_KEYSTORE_PASSWORD
+USER root
 RUN mkdir -p /tmp/mysql && \
     cd /tmp/mysql && \
     wget https://sourceforge.net/projects/mysqljson/files/mysqljsonimport/mysqljsonimport_2.0/mysqljsonimport-2.0.tar.gz && \
@@ -19,3 +21,4 @@ RUN mkdir -p /tmp/mysql && \
     rm -rf /tmp/mysql && \
     sudo mkdir -p /data/db && \
     sudo chown gitpod:gitpod -R /data/db
+USER kb
