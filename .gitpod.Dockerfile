@@ -14,7 +14,7 @@ ARG SSL_KEYSTORE_PASSWORD
 USER root
 RUN mkdir -p /tmp/mysql && \
     cd /tmp/mysql && \
-    wget https://osdn.net/projects/sfnet_mysqljson/downloads/mysqljsonimport/mysqljsonimport_1.6/mysqljsonimport-1.6.tar.gz && \
+    wget https://sourceforge.net/projects/mysqljson/files/mysqljsonimport/mysqljsonimport_1.6/mysqljsonimport-1.6.tar.gz/download && \
     tar xf mysql.tgz && \
     cd mysql-* && \
     sudo cp bin/* /usr/local/bin/ && \
