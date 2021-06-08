@@ -20,5 +20,5 @@ RUN mkdir -p /tmp/mysql && \
     sudo cp bin/* /usr/local/bin/ && \
     rm -rf /tmp/mysql && \
     sudo mkdir -p /data/db && \
-    sudo chown gitpod:gitpod -R /data/db
+    sudo chown gitpod:gitpod /etc/mysql /var/run/mysqld /var/log/mysql /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /var/lib/mysql-upgrade
 USER kb
