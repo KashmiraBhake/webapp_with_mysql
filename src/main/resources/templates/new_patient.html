@@ -1,44 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xlmns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Patient's Details</title>
-    </head>
-    <body style=" margin: 0;padding: 0;box-sizing: border-box;">
-        <div style="height: 100%;width: 100%;background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/images/https___specials-images.forbesimg.com_imageserve_5dbb4182d85e3000078fddae_0x0.jpg');background-position: center;
-        background-size: cover;position: absolute;">
-        <div style="display:flex;align-items: left;padding: 0px;padding-left: 50px;padding-right: 0px;padding-top: 10px;">
-        
-                    <a href="/" style="text-decoration: none;
-                    color: aqua;
-                    font-size: 30px;">Healthcare<br> WebApp</a>
-                
-        </div>
-        <div id="new-patient">
-                <div style="width:300px;height:580px;position:relative;margin:2% auto;background:rgba(0,0,0,0.2);padding:10px;overflow: hidden;">
-                        <div style="width:220px;margin:35px auto;position:relative;box-shadow:0 0 20px 9px #ff61241f;border-radius:30px;">
-                                <div id='btn' style="top:0;left:0;position:absolute;width: 220px;height: 100%;background: #6dfafa;border-radius: 30px;"></div>
-                                <div
-                                type="text"style="padding:10px 30px;cursor:pointer;background:transparent;border:0;outline:none;position:relative;font-family:Sans-serif;text-align: center;" >Enter details below</div>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <title>Home Page</title>
+                <link rel="stylesheet" type="text/css" href="/css/style.css">
+        </head>
+        <body>
+        <div class="full-page">
+                <div class=navbar1>
+                        <a href="/">Healthcare<br> WebApp</a>
+                </div>
+                <div id="new-patient"class="login-page">
+                        <div class="form-box1">
+                                <div class="button-box">
+                                        <div id='btn'></div>
+                                        <div type="text" class="txt">Enter details below</div>
+                                </div>
+                                <form id='login'action="create_new_patient" method="post"class="input-group-login">
+                                        <input type="text" name="firstName"placeholder='First Name' required class="input-field">
+                                        <input type="text" name="lastName"placeholder='Last Name' required class="input-field">
+                                        <input type="text" name="age"placeholder='Age' required class="input-field">
+                                        <input type="text" name="gender"placeholder='Gender' required class="input-field">
+                                        <input type="text" name="city"placeholder='City' required class="input-field">
+                                        <input type="text" name="pincode"placeholder='Area Pincode' required class="input-field">
+                                        <button type ="submit" class="submit-btn">Submit</button>
+                                </form>
                         </div>
-                        <form id='login'action="create_new_patient" method="post"style="top:100px;position:absolute;width: 300px;">
-                                <input type="text" name="firstName"placeholder='First Name' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <input type="text" name="lastName"placeholder='Last Name' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <input type="text" name="age"placeholder='Age' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <input type="text" name="gender"placeholder='Gender' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <input type="text" name="city"placeholder='City' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <input type="text" name="pincode"placeholder='Area Pincode' required
-                                style="width: 100%;padding:10px 0;margin:14px 0;border-left:0;border-top:0;border-right:0;border-bottom:2px solid white;outline:none;background:transparent;color: white;">
-                                <button type ="submit" style="width: 85%;padding:10px 30px;cursor: pointer;
-                                display: block;margin: auto;background: #F3C693;border: 0;outline: none;border-radius: 30px;">Submit</button>
-                        </form>
                 </div>
         </div>
+        </body>
+</html>
+        
         </div>
         </body>
 

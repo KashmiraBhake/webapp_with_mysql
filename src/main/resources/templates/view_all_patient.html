@@ -1,39 +1,71 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title>Search fields</title>
-    <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  -->
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org">
     <head>
-<body>
-    <h1> Search result below:</h1>
-    <hr>
-    <table>
-        <thead>
-        <tr>
-            <th>Patient ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>City</th>
-            <th>Pin Code</th>
-            <th>View Profile</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr th:each="patient : ${patients}">
-                <td th:text="${patient.id}"></td>
-                <td th:text="${patient.firstName}"></td>
-                <td th:text="${patient.lastName}"></td>
-                <td th:text="${patient.age}"></td>
-                <td th:text="${patient.gender}"></td>
-                <td th:text="${patient.city}"></td>
-                <td th:text="${patient.pincode}"></td>
-                <td>
-                   <a th:href="@{'/view/' + ${patient.id}}">View Profile</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <meta charset="UTF-8">
+        <title>Search Results</title>
+    </head>
+    <body style=" margin: 0;padding: 0;box-sizing: border-box;">
+        <div style="height: 100%;width: 100%;background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url('/images/https___specials-images.forbesimg.com_imageserve_5dbb4182d85e3000078fddae_0x0.jpg');background-position: center;
+        background-size: cover;position: absolute;">
+        <div style="display:flex;align-items: left;padding: 0px;padding-left: 50px;padding-right: 0px;padding-top: 10px;">
+        
+                    <a href="/" style="text-decoration: none;
+                    color: aqua;
+                    font-size: 30px;">Healthcare<br> WebApp</a>
+                    <div style="align-items: center;color: white;font-size: 30px;margin-top: 40px;margin-left: 470px;font-family: sans-serif;">All Patients:</div>
+                    
+                
+        </div>
+        <div id="search-patient-result">
+            <div style="width:1400px;height:580px;position:relative;margin:2% auto;background:rgba(0,0,0,0.2);padding:10px;overflow: hidden;">
+                
+                <table style="width: 100%;border-collapse: collapse;margin-left: auto;margin-right: auto;color:white">
+                    <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>City</th>
+                        <th>Pin Code</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Upload Profile Photo</th>
+                        <th>Upload Relevant Documents</th>
+                        <th>View Profile</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="patient : ${patients}" >
+                            <td th:text="${patient.id}"></td>
+                            <td th:text="${patient.firstName}"></td>
+                            <td th:text="${patient.lastName}"></td>
+                            <td th:text="${patient.age}"></td>
+                            <td th:text="${patient.gender}"></td>
+                            <td th:text="${patient.city}"></td>
+                            <td th:text="${patient.pincode}"></td>
+                            <td>
+                                <a th:href="@{'/edit/' + ${patient.id}}">Edit</a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/delete/' + ${patient.id}}">Delete</a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/upload_pic/' + ${patient.id}}">Upload Profile Pic</a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/docs/' + ${patient.id}}">Upload Docs</a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/view/' + ${patient.id}}">View Profile</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+ 
 
-</body>
+    </body>
 </html>

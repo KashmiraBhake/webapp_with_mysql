@@ -88,7 +88,7 @@ public class PatientController {
     @RequestMapping(path="/view_all_patient",method=RequestMethod.GET)
     public ModelAndView view_all_patient() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("search_result");
+        modelAndView.setViewName("view_all_patient");
         modelAndView.addObject("patients", patientRepository.findAll());
         System.out.println("search patient form");
         return modelAndView;
