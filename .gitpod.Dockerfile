@@ -13,17 +13,14 @@ USER kb
 
 ARG SSL_KEYSTORE_PASSWORD
 USER root
-RUN mkdir /var/lib/mysql && \
-    cd /tmp/mysql && \
-    wget https://sourceforge.net/projects/mysqljson/files/mysqljsonimport/mysqljsonimport_2.0/mysqljsonimport-2.0.tar.gz && \
-    tar xf mysql.tgz && \
-    cd mysql-* && \
-    sudo cp bin/* /usr/local/bin/ && \
-    rm -rf /tmp/mysql && \
-    sudo mkdir /var/lib/mysql && \
-    sudo chown -R  mysql:mysql /var/lib/mysql 
+RUN mkdir /var/lib/mysql \ 
+ && cd /tmp/mysql \
+ && wget https://sourceforge.net/projects/mysqljson/files/mysqljsonimport/mysqljsonimport_2.0/mysqljsonimport-2.0.tar.gz \ 
+ && tar xf mysql.tgz \
+ && cd mysql-* \
+ && sudo cp bin/* /usr/local/bin \ 
+ && rm -rf /tmp/mysql \
+ && sudo mkdir /var/lib/mysql \ 
+ && sudo chown -R  mysql:mysql /var/lib/mysql 
 USER kb
 
-# mkdir /var/lib/mysql
-# mkdir /var/lib/mysql/mysql
-# chown -R mysql:mysql /var/lib/mysql 
