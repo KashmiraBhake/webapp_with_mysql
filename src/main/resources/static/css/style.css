@@ -206,7 +206,7 @@ nav2 ul li
 .images
 {
     width:100%;
-    height: 30%;
+    height: 40%;
     padding:10px 30px;
     background:transparent;
     border:0;
@@ -215,10 +215,11 @@ nav2 ul li
 }
 .pic
 {
-    width:60%;
+    width:50%;
     height: 100%;
+    margin-left: 25%;
     text-align: center;
-    margin-left: 20%;
+   
 }
 nav3
 {
@@ -235,7 +236,95 @@ nav3 ul li
     margin-bottom: 10px;
     margin-top: 10px;
     color: white;
-    font-size: 20px;
+    font-size: 25px;
     position:relative;
     font-family:Sans-serif;
+}
+.txt2
+{
+    text-decoration: none;
+    color: aqua;
+    font-size: 28px;
+    margin-top: 20px;
+    text-align: left;
+}
+.view-page{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px;
+}
+.display-box1
+{
+    width: 500px;
+    height: 600px;
+    position: relative;
+    margin: 2% auto;
+    background: rgba(0,0,0,0.2);
+    padding: 5px;
+    overflow: hidden;
+}
+.button-box1
+{
+    width:220px;
+    margin:15px auto;
+    position:relative;
+    box-shadow:0 0 20px 9px #ff61241f;
+    border-radius:30px;
+
+}
+nav2 ul li a
+{
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    font-family: sans-serif;
+}
+.all-patient-form
+{
+    width:1400px;height:580px;position:relative;margin:2% auto;background:rgba(0,0,0,0.2);padding:10px;overflow: hidden;
+                
+}
+.styled-table 
+{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 1380px;
+   
+}
+.styled-table thead tr {
+    background-color: rgba(0, 255, 255, 0.767);
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 20px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: rgba(170, 245, 245, 0.959);
+}
+.styled-table tbody tr:nth-of-type(odd) {
+    color: white;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 1px solid aqua;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: aqua;
+}
+.styled-table tbody tr:nth-of-type(odd) a {
+    color: white;
+}
+.styled-table tbody tr:nth-of-type(even) a {
+    color:black
 }

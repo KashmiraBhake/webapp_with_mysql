@@ -77,5 +77,20 @@ public class Documents {
         // if (photos == null) return null;
         return "/patient-docs/" + patients.getId() + "/" ;
     }
+
+
+    public Object getId() {
+        return null;
+    }
+
+
+    public String getId(Patient id) {
+        return null;
+    }
+
+
+    public String getByPatients(Patient id) {
+        return null;
+    }
 }
       

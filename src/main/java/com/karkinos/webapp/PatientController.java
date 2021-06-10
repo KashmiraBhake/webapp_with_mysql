@@ -272,10 +272,12 @@ public class PatientController {
     //***********************************************************************************/
 
     @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
-    public ModelAndView viewProfile(@ModelAttribute("patient") Patient patient, @PathVariable Long id)
+    public ModelAndView viewProfile(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
         {
             System.out.println("101");
-            Optional<Patient> patientData = patientRepository.findById(id);
+            List<Documents> documentsData = documentsRepository.findByPatients(id);
+        
+        Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
         System.out.println("102");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view");
@@ -289,39 +291,48 @@ public class PatientController {
         modelAndView.addObject("city", patientData.get().getCity());
         modelAndView.addObject("pincode", patientData.get().getPincode());
         modelAndView.addObject("id", patientData.get().getId());
-        //modelAndView.addObject("docs", patientData.getDocName());
-        
-        System.out.println("104"); 
-        System.out.println("final view");
-    
-         return modelAndView;
-        
-    }
-    //************************************************ */
-
-    @RequestMapping(path = "/view_docs/{id}",method=RequestMethod.GET)
-    public ModelAndView viewDocs(@ModelAttribute("documents") Documents documents, @PathVariable Patient id)
-        {
-            System.out.println("201");
-        List<Documents> documentsData = documentsRepository.findByPatients(id);
-        System.out.println("202");
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("view_docs");
         List<String> docs = new ArrayList<>();
         for(Documents docList : documentsData ) {
             docs.add(docList.getDocName());
         }     
         System.out.println("***********((((((((" + docs);
         modelAndView.addObject("docs", docs);
-        modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
-        return modelAndView;        
+        //modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
+       
+        System.out.println("104"); 
+        System.out.println("final view");
+
+    
+         return modelAndView;
         
     }
+    //************************************************ */
+
+    // @RequestMapping(path = "/view_docs/{id}",method=RequestMethod.GET)
+    // public ModelAndView viewDocs(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
+    //     {
+    //         System.out.println("201");
+    //     List<Documents> documentsData = documentsRepository.findByPatients(id);
+        
+    //     Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
+    //     System.out.println("202");
+    //     ModelAndView modelAndView = new ModelAndView();
+    //     modelAndView.setViewName("view_docs");
+    //     List<String> docs = new ArrayList<>();
+    //     for(Documents docList : documentsData ) {
+    //         docs.add(docList.getDocName());
+    //     }     
+    //     System.out.println("***********((((((((" + docs);
+    //     modelAndView.addObject("docs", docs);
+    //     modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
+    //     return modelAndView;        
+        
+    // }
 
     
     //******************************************************** */
     @RequestMapping(path = "/downloads/{id}/{doc}",method=RequestMethod.GET)
-    public void downloadDoc(HttpServletResponse response,@PathVariable Patient id,@PathVariable String doc) 
+    public void downloadDoc(HttpServletResponse response,@PathVariable Patient id,@PathVariable String doc,@ModelAttribute("patient") Patient patient) 
     throws Exception{
         System.out.println("--------------------");
         System.out.println(doc);
