@@ -20,6 +20,6 @@ RUN mkdir -p /tmp/mysql && \
     cd mysql-* && \
     sudo cp bin/* /usr/local/bin/ && \
     rm -rf /tmp/mysql && \
-    sudo mkdir -p  /var/run/mysql \ && \
-    sudo chown -R gitpod:gitpod   /var/run/mysql \
+    sudo mkdir -p  /var/run/mysql && \
+    sudo chown -R gitpod:gitpod  /etc/mysql /var/run/mysqld /var/log/mysql /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /var/lib/mysql-upgrade
 USER kb
