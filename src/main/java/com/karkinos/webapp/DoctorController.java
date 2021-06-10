@@ -1,6 +1,11 @@
 package com.karkinos.webapp;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Optional;
+
+import com.google.gson.Gson;
 
 //import com.karkinos.webapp.service.DoctorService;
 
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -148,4 +154,21 @@ public class DoctorController {
     // public Iterable<Doctor> list() {
     //     return doctorService.list();
     // }
-}
+
+
+    // @RequestMapping("/upload1")
+    // public void upload() throws IOException {
+    //     FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Doctor.json");
+    //     BufferedReader br = new BufferedReader(reader);
+    //     StringBuffer sbr = new StringBuffer();
+    //     String line;
+        
+    //     while((line = br.readLine()) != null){
+    //       Gson gson = new Gson();
+    //       Doctor doctor = gson.fromJson(line, Doctor.class);
+    //       doctorRepository.save(doctor);
+
+    //     }
+        
+       
+    }
