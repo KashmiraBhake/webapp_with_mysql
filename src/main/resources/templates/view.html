@@ -1,20 +1,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-      <title>Patient Details</title>
-  </head>
-    <body>
-      <h1 th:text= "${firstName} +' ' + ${lastName} + ' Profile'" ></h1>
-      <img th:src="@{${PhotosImagePath}}" />
-        <h3 th:text="'First Name: ' + ${firstName}"></h3>
-        <h3 th:text="'Last Name: ' + ${lastName}"></h3>
-        <h3 th:text="'Age: ' + ${age}"></h3>
-        <h3 th:text="'Gender: ' + ${gender}"></h3>
-        <h3 th:text="'City: ' + ${city}"></h3>
-        <h3 th:text="'Pin Code: ' + ${pincode}"></h3>
-        <h3>Documents:</h3><br>
-        <a th:href="@{'/downloads/'+ ${id}}"><h3 th:text="${docs}"</h3></a><br><br>
-          <!-- <embed th:src="@{${DocsFilePath}}" /> -->
-        <!-- <table>
+
+<head>
+  <title>Patient Details</title>
+</head>
+
+<body>
+  <h1 th:text="${firstName} +' ' + ${lastName} + ' Profile'"></h1>
+  <img th:src="@{${PhotosImagePath}}" />
+  <h3 th:text="'First Name: ' + ${firstName}"></h3>
+  <h3 th:text="'Last Name: ' + ${lastName}"></h3>
+  <h3 th:text="'Age: ' + ${age}"></h3>
+  <h3 th:text="'Gender: ' + ${gender}"></h3>
+  <h3 th:text="'City: ' + ${city}"></h3>
+  <h3 th:text="'Pin Code: ' + ${pincode}"></h3>
+  <h3>Documents:</h3><br>
+  <a th:href="@{'/downloads/'+ ${id}}">
+    <h3 th:text="${docs}" </h3>
+  </a><br><br>
+  <!-- <embed th:src="@{${DocsFilePath}}" /> -->
+  <!-- <table>
           <thead>
           <tr>
             <th>Documents:</th>
@@ -29,8 +33,8 @@
       </tr>
     </tbody>
 </table> -->
-        
-        <a href ="/"> click here to go home page</a>
-    </body>
-    
-    </html>
+
+  <a href="/"> click here to go home page</a>
+</body>
+
+</html>

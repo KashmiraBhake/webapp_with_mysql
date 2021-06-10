@@ -320,29 +320,4 @@ public class PatientController {
     }
 //**************************************************************************************************************** */
 
-	// CommandLineRunner runner(PatientService patientService) {
-	// 	return args -> {
-	// 		// read json and write to db
-	// 		ObjectMapper mapper = new ObjectMapper();
-	// 		TypeReference<List<Patient>> typeReference = new TypeReference<List<patient>>(){};
-	// 		InputStream inputStream = TypeReference.class.getResourceAsStream("/json/Patient.json");
-	// 		try {
-	// 			List<Patient> patient = mapper.readValue(inputStream,typeReference);
-	// 			patientService.save(users);
-	// 			System.out.println("Users Saved!");
-	// 		} catch (IOException e){
-	// 			System.out.println("Unable to save users: " + e.getMessage());
-	// 		}
-	// 	};
-	// }
-    // private PatientService patientService;
-
-    // public PatientController(PatientService patientService) {
-    //     this.patientService = patientService;
-    // }
-
-    // @GetMapping("/list")
-    // public Iterable<Patient> list() {
-    //     return patientService.list();
-    // }
 }
