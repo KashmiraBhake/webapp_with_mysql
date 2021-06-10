@@ -20,7 +20,13 @@
                                         <input type="text" name="firstName"placeholder='First Name' required class="input-field">
                                         <input type="text" name="lastName"placeholder='Last Name' required class="input-field">
                                         <input type="text" name="age"placeholder='Age' required class="input-field">
-                                        <input type="text" name="gender"placeholder='Gender' required class="input-field">
+                                        <input type="text" list="genders" name="gender"placeholder='Gender' required class="input-field">
+                                        <datalist id="genders">
+                                                <option value="Male">
+                                                <option value="Female">
+                                                <option value="Others">
+                                                <option value="Prefer not to say">
+                                        </datalist>
                                         <input type="text" name="city"placeholder='City' required class="input-field">
                                         <input type="text" name="pincode"placeholder='Area Pincode' required class="input-field">
                                         <button type ="submit" class="submit-btn">Submit</button>

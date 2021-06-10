@@ -281,13 +281,13 @@ nav2 ul li a
 }
 .all-patient-form
 {
-    width:1400px;height:580px;position:relative;margin:2% auto;background:rgba(0,0,0,0.2);padding:10px;overflow: hidden;
+    width:1400px;height:600px;position:relative;margin:2% auto;background:rgba(0,0,0,0.2);padding:10px;overflow: hidden;
                 
 }
 .styled-table 
 {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 2px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 1380px;
@@ -327,4 +327,14 @@ nav2 ul li a
 }
 .styled-table tbody tr:nth-of-type(even) a {
     color:black
+}
+.styled-table tbody tr a i{
+    font-size: 18px;
+}
+.title
+{
+    color: white;
+    margin-left: 35%;
+    font-family: 'Times New Roman', Times, serif;
+    flex-grow: 9;
 }
