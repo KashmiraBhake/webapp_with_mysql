@@ -271,19 +271,39 @@ public class PatientController {
     }
     //***********************************************************************************/
 
-    @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
-    public ModelAndView viewProfile(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
+    @RequestMapping(path = "/preview/{id}",method=RequestMethod.GET)
+    public String previewProfile(@ModelAttribute("documents") Documents documents, @PathVariable("id") Patient id)
         {
-            ModelAndView modelAndView = new ModelAndView();
             System.out.println("101");
             List<Documents> documentsData = documentsRepository.findByPatients(id);
             System.out.println("1011");
-            if (id != null){
-                Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
-        System.out.println("102");
+            if (documentsData.get(0).getId() == null){
+                System.out.println("no recs in doc");
+                return "redirect:/view/{id}";
+        }   
+        else{
+            System.out.println("recs in doc");
+            return "redirect:/view_docs/{id}";
+       }  
         
-        modelAndView.setViewName("view");
-        System.out.println("103");
+            
+        
+        
+    }
+    //************************************************ */
+    @RequestMapping(path = "/view_doc/{id}",method=RequestMethod.GET)
+    public ModelAndView viewProfileDoc(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
+        {
+            ModelAndView modelAndView = new ModelAndView();
+            System.out.println("201");
+            List<Documents> documentsData = documentsRepository.findByPatients(id);
+            System.out.println("2011");
+           
+                Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
+        System.out.println("202");
+        
+        modelAndView.setViewName("view_doc");
+        System.out.println("203");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -294,41 +314,42 @@ public class PatientController {
         modelAndView.addObject("pincode", patientData.get().getPincode());
         modelAndView.addObject("id", patientData.get().getId());
         List<String> docs = new ArrayList<>();
-        for(Documents docList : documentsData ) {
-            docs.add(docList.getDocName());
-        }     
+        for(Documents docList : documentsData ) 
+        {
+            docs.add(docList.getDocName());    
         System.out.println("***********((((((((" + docs);
         modelAndView.addObject("docs", docs);
        
-        System.out.println("104"); 
+        System.out.println("111104"); 
         System.out.println("final view");
         }
             return modelAndView;
-        
-        
     }
-    //************************************************ */
 
-    // @RequestMapping(path = "/view_docs/{id}",method=RequestMethod.GET)
-    // public ModelAndView viewDocs(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
-    //     {
-    //         System.out.println("201");
-    //     List<Documents> documentsData = documentsRepository.findByPatients(id);
+    @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
+    public ModelAndView viewProfile(@PathVariable Long id,@ModelAttribute("patient") Patient patient)
+        {
+            ModelAndView modelAndView = new ModelAndView();
+            System.out.println("301");
+           
+                Optional<Patient> patientData = patientRepository.findById(id);
+        System.out.println("302");
         
-    //     Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
-    //     System.out.println("202");
-    //     ModelAndView modelAndView = new ModelAndView();
-    //     modelAndView.setViewName("view_docs");
-    //     List<String> docs = new ArrayList<>();
-    //     for(Documents docList : documentsData ) {
-    //         docs.add(docList.getDocName());
-    //     }     
-    //     System.out.println("***********((((((((" + docs);
-    //     modelAndView.addObject("docs", docs);
-    //     modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
-    //     return modelAndView;        
-        
-    // }
+        modelAndView.setViewName("view");
+        System.out.println("303");
+        modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
+        modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
+        modelAndView.addObject("firstName", patientData.get().getFirstName());
+        modelAndView.addObject("lastName",patientData.get().getLastName());
+        modelAndView.addObject("age", patientData.get().getAge());
+        modelAndView.addObject("gender", patientData.get().getGender());
+        modelAndView.addObject("city", patientData.get().getCity());
+        modelAndView.addObject("pincode", patientData.get().getPincode());
+        modelAndView.addObject("id", patientData.get().getId());
+        System.out.println("104"); 
+        System.out.println("final view");
+            return modelAndView;
+    }
 
     
     //******************************************************** */
