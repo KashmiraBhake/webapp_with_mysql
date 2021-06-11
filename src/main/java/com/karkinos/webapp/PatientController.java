@@ -22,6 +22,9 @@ import com.google.gson.Gson;
 //import com.karkinos.webapp.service.PatientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -38,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+@RestController
 public class PatientController {
 
     @Autowired
@@ -315,22 +318,37 @@ public class PatientController {
         outputStream.close();
     }
 
+    @RequestMapping(path = "/view_all_patient/{page}", method = RequestMethod.GET)
+    public ModelAndView view_all_patient(@PathVariable("page") Integer page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        ModelAndView modelAndView = new ModelAndView();
+        Page<Patient> patients = patientRepository.findAll(pageable);
+        modelAndView.setViewName("view_all_patient");
+        modelAndView.addObject("patients", patients.getContent());
+        modelAndView.addObject("currentPage", patients.getNumber());
+        modelAndView.addObject("totalPage", patients.getTotalPages());
+        
+
+        return modelAndView;
+    }
+
+
     // ****************************************************************************************************************
     
-    // @RequestMapping("/upload")
-    // public void upload() throws IOException {
-    //     FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Patient.json");
-    //     BufferedReader br = new BufferedReader(reader);
-    //     StringBuffer sbr = new StringBuffer();
-    //     String line;
+    @RequestMapping("/upload")
+    public void upload() throws IOException {
+        FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Patient.json");
+        BufferedReader br = new BufferedReader(reader);
+        StringBuffer sbr = new StringBuffer();
+        String line;
         
-    //     while((line = br.readLine()) != null){
-    //       Gson gson = new Gson();
-    //       Patient patient = gson.fromJson(line, Patient.class);
-    //       patientRepository.save(patient);
+        while((line = br.readLine()) != null){
+          Gson gson = new Gson();
+          Patient patient = gson.fromJson(line, Patient.class);
+          patientRepository.save(patient);
 
-    //     }
+        }
         
        
-    // }
+    }
 }

@@ -2,14 +2,25 @@
 
 <head>
     <title>Search fields</title>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/5.0.1/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/3.6.0/jquery.min.js"
+            th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
     <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  -->
 
     <head>
 
     <body>
-        <h1> Search result below:</h1>
+        <div class="container">
+        <h1> All patients</h1>
         <hr>
-        <table>
+        <!-- <table> -->
+            <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Patient ID</th>
@@ -37,6 +48,19 @@
                 </tr>
             </tbody>
         </table>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li th:if = "${currentPage != 0}" class="page-item"><a th:href="@{'/view_all_patient/' + ${currentPage-1}}"class="page-link" href="#">Previous</a></li>
+              <li th:classappend="${currentPage == 1-1?'active':''}"th:each= "i: ${#numbers.sequence(1, totalPage)}" class="page-item"><a th:href="@{'/view_all_patient/' + ${i-1}}"class="page-link" href="#"><span th:text="${i}"></span></a></li>
+              
+              <li th:if="${currentPage+1 != totalPage}"class="page-item"><a th:href="@{'/view_all_patient/' + ${currentPage+1}}" class="page-link" href="#">Next</a></li>
+            </ul>
+          </nav>
+
+
+          <a href ="/"> click here to go home page</a>
 
     </body>
 

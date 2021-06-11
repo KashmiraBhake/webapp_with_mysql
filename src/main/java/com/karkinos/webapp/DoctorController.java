@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@Controller
+@RestController
 public class DoctorController {
 
     @Autowired
@@ -156,19 +156,20 @@ public class DoctorController {
     // }
 
 
-    // @RequestMapping("/upload1")
-    // public void upload() throws IOException {
-    //     FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Doctor.json");
-    //     BufferedReader br = new BufferedReader(reader);
-    //     StringBuffer sbr = new StringBuffer();
-    //     String line;
+    @RequestMapping("/upload1")
+    public void upload() throws IOException {
+        FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Doctor.json");
+        BufferedReader br = new BufferedReader(reader);
+        StringBuffer sbr = new StringBuffer();
+        String line;
         
-    //     while((line = br.readLine()) != null){
-    //       Gson gson = new Gson();
-    //       Doctor doctor = gson.fromJson(line, Doctor.class);
-    //       doctorRepository.save(doctor);
+        while((line = br.readLine()) != null){
+          Gson gson = new Gson();
+          Doctor doctor = gson.fromJson(line, Doctor.class);
+          doctorRepository.save(doctor);
 
-    //     }
+        }
+    }
         
        
     }
