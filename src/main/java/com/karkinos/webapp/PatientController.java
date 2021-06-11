@@ -274,18 +274,18 @@ public class PatientController {
     @RequestMapping(path = "/preview/{id}",method=RequestMethod.GET)
     public String previewProfile(@ModelAttribute("documents") Documents documents, @PathVariable("id") Patient id, @ModelAttribute("patient") Patient patient)
         {
-            System.out.println("101");
+        
             List<Documents> documentsData = documentsRepository.findByPatients(id);
-            Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
-            System.out.println("1011");
-            System.out.println(documentsData.get(0).getPatients());
-            if (patientData.get().getId() == 0){
+            System.out.println("6666666666");
+            System.out.println(documentsRepository.findByPatients(id));
+            System.out.println("6666666666");
+            if (documentsData.isEmpty()){
                 System.out.println("no recs in doc");
                 return "redirect:/view/{id}";
         }   
         else{
             System.out.println("recs in doc");
-            return "redirect:/view_docs/{id}";
+            return "redirect:/view_doc/{id}";
        }       
           
     }
@@ -294,15 +294,11 @@ public class PatientController {
     public ModelAndView viewProfileDoc(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
         {
             ModelAndView modelAndView = new ModelAndView();
-            System.out.println("201");
             List<Documents> documentsData = documentsRepository.findByPatients(id);
-            System.out.println("2011");
            
                 Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
-        System.out.println("202");
-        
+
         modelAndView.setViewName("view_doc");
-        System.out.println("203");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -318,9 +314,6 @@ public class PatientController {
             docs.add(docList.getDocName());    
         System.out.println("***********((((((((" + docs);
         modelAndView.addObject("docs", docs);
-       
-        System.out.println("111104"); 
-        System.out.println("final view");
         }
             return modelAndView;
     }
@@ -329,13 +322,11 @@ public class PatientController {
     public ModelAndView viewProfile(@PathVariable Long id,@ModelAttribute("patient") Patient patient)
         {
             ModelAndView modelAndView = new ModelAndView();
-            System.out.println("301");
+
            
                 Optional<Patient> patientData = patientRepository.findById(id);
-        System.out.println("302");
         
         modelAndView.setViewName("view");
-        System.out.println("303");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -345,7 +336,6 @@ public class PatientController {
         modelAndView.addObject("city", patientData.get().getCity());
         modelAndView.addObject("pincode", patientData.get().getPincode());
         modelAndView.addObject("id", patientData.get().getId());
-        System.out.println("104"); 
         System.out.println("final view");
             return modelAndView;
     }
