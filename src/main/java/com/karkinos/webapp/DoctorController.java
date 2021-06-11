@@ -2,6 +2,8 @@ package com.karkinos.webapp;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 
 
 @Controller
@@ -28,14 +31,23 @@ public class DoctorController {
     }
 
     @RequestMapping(path="/create_new_doctor",method=RequestMethod.POST)
-    public ModelAndView create_new_doctor(@ModelAttribute Doctor doctor,BindingResult result,
+    public ModelAndView create_new_doctor(@Valid @ModelAttribute Doctor doctor,BindingResult result, BindingResult bindingResult,
         @RequestParam String firstName,
         @RequestParam String lastName,
         @RequestParam String specialization,
-        @RequestParam long phoneNumber,
+        @RequestParam String phoneNumber,
         @RequestParam String address,
         @RequestParam String city,
-        @RequestParam Integer pincode) {
+        @RequestParam String pincode) {
+
+            if (bindingResult.hasErrors()) {       
+        
+                System.out.println(bindingResult);
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.setViewName("new_doctor");
+                return modelAndView;
+            }
+
         doctorRepository.save(new Doctor(doctor.getFirstName(), doctor.getLastName(), doctor.getSpecialization(), doctor.getPhoneNumber(), doctor.getAddress(), doctor.getCity(), doctor.getPincode()));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("submitdoctor");
@@ -115,7 +127,7 @@ public class DoctorController {
     @RequestMapping(value = "/delete1/{id}")
     public String deleteDoctor(@PathVariable(name = "id") long id) {
     doctorRepository.deleteById(id);
-    return "redirect:/";       
+    return "redirect:/view_all_doctor";       
     }
     
 }
