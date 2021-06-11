@@ -274,12 +274,14 @@ public class PatientController {
     @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
     public ModelAndView viewProfile(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
         {
+            ModelAndView modelAndView = new ModelAndView();
             System.out.println("101");
             List<Documents> documentsData = documentsRepository.findByPatients(id);
-        
-        Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
+            System.out.println("1011");
+            if (id != null){
+                Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
         System.out.println("102");
-        ModelAndView modelAndView = new ModelAndView();
+        
         modelAndView.setViewName("view");
         System.out.println("103");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
@@ -297,13 +299,12 @@ public class PatientController {
         }     
         System.out.println("***********((((((((" + docs);
         modelAndView.addObject("docs", docs);
-        //modelAndView.addObject("id", documentsData.get(0).getPatients().getId());
        
         System.out.println("104"); 
         System.out.println("final view");
-
-    
-         return modelAndView;
+        }
+            return modelAndView;
+        
         
     }
     //************************************************ */
