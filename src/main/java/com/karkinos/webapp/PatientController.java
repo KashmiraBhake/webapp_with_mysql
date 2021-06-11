@@ -272,23 +272,22 @@ public class PatientController {
     //***********************************************************************************/
 
     @RequestMapping(path = "/preview/{id}",method=RequestMethod.GET)
-    public String previewProfile(@ModelAttribute("documents") Documents documents, @PathVariable("id") Patient id)
+    public String previewProfile(@ModelAttribute("documents") Documents documents, @PathVariable("id") Patient id, @ModelAttribute("patient") Patient patient)
         {
             System.out.println("101");
             List<Documents> documentsData = documentsRepository.findByPatients(id);
+            Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
             System.out.println("1011");
-            if (documentsData.get(0).getId() == null){
+            System.out.println(documentsData.get(0).getPatients());
+            if (patientData.get().getId() == 0){
                 System.out.println("no recs in doc");
                 return "redirect:/view/{id}";
         }   
         else{
             System.out.println("recs in doc");
             return "redirect:/view_docs/{id}";
-       }  
-        
-            
-        
-        
+       }       
+          
     }
     //************************************************ */
     @RequestMapping(path = "/view_doc/{id}",method=RequestMethod.GET)

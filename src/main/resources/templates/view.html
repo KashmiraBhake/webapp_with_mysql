@@ -34,8 +34,9 @@
                                                 <div id='btn'></div>
                                                 <div type="text" class="txt" th:text= "${firstName} +' ' + ${lastName} + 's Medical Record'"></div>
                                         </div>
-                                        <div th:href="@{'/docs/' + ${id}}"><i class="material-icons">note_add</i></a>
-                                                
+                                        <div >
+                                        <!-- th:href="@{'/docs/' + ${patient.id}}"><i class="material-icons">note_add</i></a> -->
+                                                <a th:href="@{'/docs/' + ${patient.id}}"><i class="material-icons">note_add</i></a>   
                                         </div>
                                         
                                 </div>
