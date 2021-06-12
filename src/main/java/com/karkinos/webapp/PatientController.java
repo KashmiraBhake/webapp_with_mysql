@@ -1,8 +1,10 @@
 package com.karkinos.webapp;
  
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -11,15 +13,18 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.google.gson.Gson;
+
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -77,7 +82,7 @@ public class PatientController {
             
         patientRepository.save(new Patient(patient.getFirstName(), patient.getLastName(), patient.getAge(), patient.getGender(), patient.getCity(), patient.getPincode(),patient.getPhotos(), patient.getDocuments()));
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("submitmessage");
+        modelAndView.setViewName("submit_patient");
         modelAndView.addObject("firstName", firstName);
         modelAndView.addObject("lastName", lastName);
         modelAndView.addObject("age", age);
@@ -96,12 +101,18 @@ public class PatientController {
         return modelAndView;
     }
     
-    @RequestMapping(path="/view_all_patient",method=RequestMethod.GET)
-    public ModelAndView view_all_patient() {
+
+    @RequestMapping(path = "/view_all_patient/{page}", method = RequestMethod.GET)
+    public ModelAndView view_all_patient(@PathVariable("page") Integer page) {
+        Pageable pageable = PageRequest.of(page, 10);
         ModelAndView modelAndView = new ModelAndView();
+        Page<Patient> patients = patientRepository.findAll(pageable);
         modelAndView.setViewName("view_all_patient");
-        modelAndView.addObject("patients", patientRepository.findAll());
-        System.out.println("search patient form");
+        modelAndView.addObject("patients", patients.getContent());
+        modelAndView.addObject("number", patients.getNumber()+1);
+        modelAndView.addObject("totalPages", patients.getTotalPages());
+        modelAndView.addObject("currentPage" , page);
+    
         return modelAndView;
     }
 
@@ -109,7 +120,7 @@ public class PatientController {
     public ModelAndView search_patient(@RequestParam String firstName) 
     {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("search_result");
+        modelAndView.setViewName("search_patient_result");
         modelAndView.addObject("patients", patientRepository.findByFirstName(firstName));
         System.out.println("search patient");
         return modelAndView;
@@ -139,7 +150,7 @@ public class PatientController {
         _patient.setPincode(patient.getPincode());
         patientRepository.save(_patient);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("submitmessage");
+        modelAndView.setViewName("submit_patient");
         modelAndView.addObject("firstName", _patient.getFirstName());
         modelAndView.addObject("lastName", _patient.getLastName());
         modelAndView.addObject("age", _patient.getAge());
@@ -155,7 +166,7 @@ public class PatientController {
     public String deletePatient(@PathVariable(name = "id") Long id) {
     patientRepository.deleteById(id);
     System.out.println("delete");
-    return "redirect:/view_all_patient";       
+    return "redirect:/";       
     }
 //*******************************************************//
     @RequestMapping(path="/upload_pic/{id}",method = RequestMethod.GET)
@@ -217,8 +228,8 @@ public class PatientController {
         }
         System.out.println("add pic and ty");
     
-        return "ty_message";
-    }
+        return "image_upload_message";
+     }
 //*******************************************************//    
     @RequestMapping(path="/docs/{id}",method = RequestMethod.GET)
     public ModelAndView doc_upload(@PathVariable(name = "id") Long id) {
@@ -275,7 +286,7 @@ public class PatientController {
         }
 
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("tyfile_message");
+    modelAndView.setViewName("file_upload_message");
 
               
         return modelAndView;
@@ -292,16 +303,16 @@ public class PatientController {
             System.out.println("6666666666");
             if (documentsData.isEmpty()){
                 System.out.println("no recs in doc");
-                return "redirect:/view/{id}";
+                return "redirect:/patient_details/{id}";
         }   
         else{
             System.out.println("recs in doc");
-            return "redirect:/view_doc/{id}";
+            return "redirect:/view_patient_doc/{id}";
        }       
           
     }
     //************************************************ */
-    @RequestMapping(path = "/view_doc/{id}",method=RequestMethod.GET)
+    @RequestMapping(path = "/view_patient_doc/{id}",method=RequestMethod.GET)
     public ModelAndView viewProfileDoc(@ModelAttribute("documents") Documents documents, @PathVariable Patient id,@ModelAttribute("patient") Patient patient)
         {
             ModelAndView modelAndView = new ModelAndView();
@@ -309,7 +320,7 @@ public class PatientController {
            
                 Optional<Patient> patientData = patientRepository.findById(documentsData.get(0).getPatients().getId());
 
-        modelAndView.setViewName("view_doc");
+        modelAndView.setViewName("view_patient_doc");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -329,7 +340,7 @@ public class PatientController {
             return modelAndView;
     }
 
-    @RequestMapping(path = "/view/{id}",method=RequestMethod.GET)
+    @RequestMapping(path = "/patient_details/{id}",method=RequestMethod.GET)
     public ModelAndView viewProfile(@PathVariable Long id,@ModelAttribute("patient") Patient patient)
         {
             ModelAndView modelAndView = new ModelAndView();
@@ -337,7 +348,7 @@ public class PatientController {
            
                 Optional<Patient> patientData = patientRepository.findById(id);
         
-        modelAndView.setViewName("view");
+        modelAndView.setViewName("patient_details");
         modelAndView.addObject("PhotosImagePath",patientData.get().getPhotosImagePath());
         modelAndView.addObject("photos", patientData.get().getPhotosImagePath());
         modelAndView.addObject("firstName", patientData.get().getFirstName());
@@ -381,4 +392,20 @@ public class PatientController {
         inputStream.close();
         outputStream.close();
     }
+
+    @RequestMapping("/upload")
+    public void upload() throws IOException {
+        FileReader reader = new FileReader("/workspace/webapp_with_mysql/src/main/resources/Patient.json");
+        BufferedReader br = new BufferedReader(reader);
+        StringBuffer sbr = new StringBuffer();
+        String line;
+        
+        while((line = br.readLine()) != null){
+          Gson gson = new Gson();
+          Patient patient = gson.fromJson(line, Patient.class);
+          patientRepository.save(patient);
+
+        }
+    }
+
 }

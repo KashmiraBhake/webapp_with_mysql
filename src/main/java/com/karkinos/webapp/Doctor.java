@@ -14,27 +14,27 @@ public class Doctor {
  
   private long id;
 
-  @NotBlank
-  @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
+   @NotBlank
+   @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
   private String firstName;
 
-  @NotBlank
-  @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
+ @NotBlank
+   @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
   private String lastName;
 
-  @NotBlank
-  @Pattern(regexp = "^[A-Za-z]{3,100}$", message = "only alphabets are allowed")
+   @NotBlank
+   @Pattern(regexp = "^[A-Za-z]{3,100}$", message = "only alphabets are allowed")
   private String specialization;
 
   @NotBlank
-  @Pattern(regexp="^[1-9][0-9]{9}$", message="Mobile number is invalid")
+   @Pattern(regexp="^[1-9][0-9]{9}$", message="Mobile number is invalid")
   private String phoneNumber;
 
   @NotBlank
   @Pattern(regexp = "^[a-zA-Z0-9,'.]{10,2000}$",message = "Address must be min 10 and max 2000 chars long. only alphabets, numbers, comma, dot, apostrophe characters are allowed")
   private String address;
 
-  @NotBlank
+ @NotBlank
   @Pattern(regexp = "^[A-Za-z]{3,100}$", message = "Please enter between {min} and {max}")
   private String city;
 

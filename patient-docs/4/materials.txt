@@ -1,0 +1,16 @@
+https://gist.github.com/bradtraversy/f407d642bdc3b31681bc7e56d95485b6
+https://www.codejava.net/frameworks/spring-boot/spring-boot-crud-example-with-spring-mvc-spring-data-jpa-thymeleaf-hibernate-mysql
+https://www.thymeleaf.org/documentation.html
+https://spring.io/
+https://www.w3schools.com/html/default.asp
+https://www.w3schools.com/html/default.asp
+https://spring.io/guides/gs/serving-web-content/
+https://www.tutorialspoint.com/spring/spring_web_mvc_framework.htmc
+https://www.tutorialspoint.com/spring/spring_web_mvc_framework.htm
+https://www.udemy.com/course/spring-core/learn/lecture/4334156#overview
+https://start.spring.io/
+https://open-vsx.org/extension/mongodb/mongodb-vscode
+https://dzone.com/articles/hello-world-program-spring-boot
+https://bezkoder.com/spring-boot-mongodb-crud/
+https://zetcode.com/springboot/requestparam/
+https://www.baeldung.com/start-here

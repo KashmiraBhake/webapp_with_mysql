@@ -361,3 +361,12 @@ nav2 ul li a
     font-family: sans-serif;
 
 }
+
+.pg nav ul
+{
+    text-align: center;
+    width: 100%;
+    color: white; 
+    margin-bottom: 0px;
+    margin-top: 60px;
+}

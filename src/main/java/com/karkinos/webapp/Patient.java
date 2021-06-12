@@ -31,7 +31,7 @@ public class Patient {
   @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
   private String firstName;
 
-  @NotBlank
+ @NotBlank
   @Pattern(regexp = "^[a-zA-Z0-9'.]{3,50}$" , message = "only alphabets, numbers, apostrophe, dot characters are allowed, Firstname must be 3-50 characters long")
   private String lastName;
 
@@ -46,7 +46,7 @@ public class Patient {
   private String city;
 
   @NotBlank
-  @Pattern(regexp="^[1-9][0-9]{5}$", message="Pincode is invalid")
+   @Pattern(regexp="^[1-9][0-9]{5}$", message="Pincode is invalid")
   private String pincode;
 
   @Column(nullable = true, length = 64)
